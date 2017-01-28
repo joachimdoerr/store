@@ -1,0 +1,3 @@
+- fields:
+  - name: name
+    type: varchar

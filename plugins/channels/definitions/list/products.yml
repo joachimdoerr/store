@@ -1,0 +1,11 @@
+defaults:
+  - name: categories
+    label_de: Kategorien
+    prio: 1
+    format_callable: StoreCategoryListHelper::formatCategories
+    position: 50
+
+relation:
+  - name: categories
+    type: left_join
+    on: categories=id

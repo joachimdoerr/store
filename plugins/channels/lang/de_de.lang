@@ -1,0 +1,46 @@
+# defaults
+store_channels = Channels
+store_categories = Kategorien
+
+# actions
+store_category_setcat = Kategorie für Channel erzeugen
+store_category_removecat = Channel Kategorie löschen
+store_category_setcat_goto = zur Channel Kategorie
+store_category_setcat_success = Die Channel-Kategorie wurde erfolgreich angelegt.
+store_category_setcat_fail = Es konnte keine Kategorie für den Channel angelegt werden.
+store_category_catdelete_success = Die Channel-Kategorie wurde erfolgreich gelöscht.
+store_category_cannot_remove_not_exist = Die Channel-Kategorie konnte nicht gelöscht werden da sie nicht existiert.
+store_category_catdelete_error_is_parent = Das Löschen der Channel-Kategorie ist nicht möglich da diese bereits Unterkategorien besetzt.
+
+# channels
+store_channels_master_headline = Channels
+store_channels_master_description = Verwaltung der Store-Kanäle
+store_channels_list_view = Liste der verfügbaren Kanäle
+
+store_channel_edit = Channel Editieren
+store_add_channels = Channel Hinzufügen
+
+# kategorien
+store_categories_master_headline = Kategorien
+store_categories_master_description = Verwaltung der channel-spezifischen Kategorien
+store_categories_list_channel_view = Liste der Kategorien des Channels %s
+
+store_category_edit = Kategorie Editieren
+store_add_categories = Kategorie Hinzufügen
+
+# message
+store_categories_channel_fail_msg = Es wurde noch keine Root-Kategorie für einen Channel erstellt. Bitte erstellen diese unter "Store Konfiguration > Kanäle".
+store_categories_channel_fail_headline = Channel-spezifischen Kategorien
+
+# settings
+store_category_settings = Kategorie Einstellungen
+
+
+# actions
+store_channel_delete_fail = Beim Löschen des Channels ist ein Fehler aufgetreten.
+store_channel_delete_success = Der Channel wurde erfolgreich gelöscht.
+store_channel_cannot_delete_because_category_binding = Der Channel kann nicht gelöscht werden da bereits eine Channel Kategorie erstellt wurde.
+
+store_channel_status_toggle_success = Der Status des Channels wurde erfolgreich geändert
+store_channel_status_toggle_fail = Beim Ändern des Status ist ein Fehler aufgetreten
+store_channel_category_status_toggle_success = Der Status der Channel Kategorie wurde erfolgreich geändert

@@ -1,0 +1,26 @@
+package: store/products
+version: 1.0
+author: Joachim Doerr
+supportpage: https://joachim-doerr.com
+
+page:
+    title: translate:store_product_settings
+    perm: store[]
+    hidden: false
+    subpages:
+        product_settings:
+            title: translate:store_product_settings
+            hidden: false
+            perm: store[]
+        product_filter_settings:
+            title: translate:store_product_filter_settings
+            hidden: false
+            perm: store[]
+        products:
+            title: translate:store_products
+            hidden: false
+            perm: store[]
+            navigation: catalog
+            navigation_key: store_products
+            icon: fa-cube
+            prio: 20

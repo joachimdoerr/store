@@ -1,0 +1,9 @@
+store_title = Store
+store_online = online
+store_offline = offline
+
+navigation_store = Store
+navigation_store_catalog = Store cataloge
+navigation_store_configuration = Store configuration
+
+store_settings = Settings

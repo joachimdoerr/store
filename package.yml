@@ -1,0 +1,12 @@
+package: store
+version: '1.0'
+name: Store
+author: Joachim Doerr
+supportpage: https://joachim-doerr.com
+
+page:
+    title: 'translate:store_title'
+    perm: store[]
+    icon: rex-icon fa-shopping-cart
+    subpages:
+        settings: { title: 'translate:store_settings', perm: storeadmin[] }

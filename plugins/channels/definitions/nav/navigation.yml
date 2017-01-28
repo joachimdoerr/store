@@ -1,0 +1,60 @@
+catalog:
+    pages:
+        categories:
+            name: categories
+            title_de: Kategorien
+            title_en: Categories
+            perm: store[]
+            path: store/channels/categories
+            icon: fa-folder-open-o
+            position: 60
+            url_parameter: StoreChannelNavHelper::getFirstChannelUrlParameter
+            subpages:
+                channel_filter:
+                    name: channel_filter
+                    callable: StoreChannelNavHelper::addChannelsFilter
+        products:
+            subpages_form:
+                channel_products_filter:
+                    name: channel_products_filter
+                    callable: StoreChannelNavHelper::addProductsFilter
+                    position: 40
+
+configuration:
+    pages:
+        channels:
+            name: channels
+            title_de: Kanäle
+            title_en: Channels
+            hidden: false
+            perm: store[]
+            path: store/channels/channels
+            icon: fa-random
+            position: 10
+        countries:
+            name: countries
+            title_de: Länder
+            title_en: Countries
+            hidden: false
+            perm: store[]
+            path: store/channels/countries
+            icon: fa-flag
+            position: 40
+        zones:
+            name: zones
+            title_de: Zonen
+            title_en: Zones
+            hidden: false
+            perm: store[]
+            path: store/channels/zones
+            icon: fa-globe
+            position: 60
+        currencies:
+            name: currencies
+            title_de: Währungen
+            title_en: Currencies
+            hidden: false
+            perm: store[]
+            path: store/channels/currencies
+            icon: fa-dollar
+            position: 80

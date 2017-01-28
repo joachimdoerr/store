@@ -1,0 +1,45 @@
+fields_0:
+  - field_position: 10
+  - name: code
+    type: text
+    label_de: Art. Nr.
+    label_en: Art. code
+    position: 1
+  - name: price
+    type: callable
+    label_de: Preis %s %s
+    label_en: Price %s %s
+    callable: StoreProductFormHelper::addPriceInputElement
+    position: 20
+
+langfields:
+  field_position: 50
+  fields:
+    - field_position: 20
+    - name: name
+      type: text
+      label_de: Artikelname
+      label_en: Name
+      position: 10
+    - name: teaser
+      type: textarea
+      label_de: Kurzbeschreibung
+      label_en: Short description
+      class: redactorEditor2-store_product_teaser
+      position: 60
+    - name: text
+      type: textarea
+      label_de: Beschreibung
+      label_en: Description
+      class: redactorEditor2-store_product_text
+      position: 90
+
+fields_1:
+  - field_position: 190
+  - name: status
+    type: callable
+    label_de: Status
+    label_en: State
+    callable: StoreFormHelper::addStatusElement
+    style: 'width: 200px'
+    position: 190

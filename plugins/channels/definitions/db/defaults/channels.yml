@@ -1,0 +1,17 @@
+- fields:
+  - name: name
+    type: varchar
+  - name: prio
+    type: int
+  - name: category
+    type: int
+  - name: status
+    type: bool
+  - name: createdate
+    type: datetime
+  - name: updatedate
+    type: datetime
+  - name: createuser
+    type: varchar
+  - name: updateuser
+    type: varchar

@@ -1,0 +1,25 @@
+catalog:
+    pages:
+        products:
+            name: products
+            title_de: Produkte
+            title_en: Products
+            perm: store[]
+            path: store/products/products
+            icon: fa-cube
+            position: 20
+            subpages:
+                product_variants:
+                    callable: none
+            subpages_edit:
+                product_edit_standing_link:
+                    name: product_edit_standing_link
+                    callable: StoreProductNavHelper::addStandingDataFormLink
+                    position: 20
+                    notonly: true
+            subpages_add:
+                product_edit_standing_linkadd:
+                    name: product_edit_standing_link
+                    callable: StoreProductNavHelper::addTestAdd
+                    position: 20
+                    notonly: true

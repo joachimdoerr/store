@@ -1,0 +1,30 @@
+langfields:
+  field_position: 20
+  fields:
+    - field_position: 10
+    - name: name
+      type: text
+      label_de: Name
+      label_en: Name
+      position: 1
+
+fields:
+  - field_position: 50
+  - name: parent
+    type: callable
+    label_de: Eltern-Kategorie
+    label_en: Parent category
+    callable: StoreCategoryFormHelper::addParentSelectElement
+    position: 2
+  - name: status
+    type: callable
+    label_de: Status
+    label_en: State
+    callable: AlfredFormHelper::addStatusElement
+    style: 'width: 200px'
+    position: 190
+  - name: prio
+    type: number
+    label_de: Priorität (Reihenfolge)
+    label_en: Priority
+    position: 1

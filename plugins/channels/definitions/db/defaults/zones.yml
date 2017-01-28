@@ -1,0 +1,11 @@
+- fields:
+  - name: name
+    type: varchar
+  - name: code
+    type: varchar
+  - name: countries
+    type: text
+  - name: type
+    type: varchar
+  - name: status
+    type: boolean

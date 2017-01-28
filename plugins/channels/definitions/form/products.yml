@@ -1,0 +1,19 @@
+langfields:
+  panel:
+    fields:
+        - name: 'lang_image_1test'
+          type: 'media'
+          label_de: 'Bild 1 test'
+          label_en: 'Image 1 test'
+
+fields_1:
+  - name: categories
+    type: callable
+    label_de: Kategorien
+    label_en: Categories
+    callable: StoreCategoryFormHelper::addCategoriesSelectElement
+    position: 20
+  - name: channel_prices
+    type: callable
+    label_de: Channel Preise
+    label_en: Channel Prices

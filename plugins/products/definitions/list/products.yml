@@ -1,0 +1,25 @@
+defaults:
+  - name: code
+    label_de: Art. Nr.
+    editable: true
+    group: 90
+    prio: 1
+    position: 10
+  - name: name_1
+    label_de: Artikelname
+    sort: true
+    editable: true
+    prio: 1
+    position: 30
+  - name: price
+    label_de: Preis
+    sort: true
+    position: 90
+  - name: functions
+    label_de: Status / Funktionen
+    status: 1
+    edit: 1
+    delete: 1
+    group: [90,100,90]
+    callable: AlfredListHelper::addFunctions
+    position: 190

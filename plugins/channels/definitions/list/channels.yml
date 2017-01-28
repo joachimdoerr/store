@@ -1,0 +1,21 @@
+defaults:
+  - name: name
+    label_de: Channel
+    sort: true
+    editable: true
+    prio: 1
+    position: 30
+  - name: category
+    label_de: Kategorie
+    format_callable: StoreChannelListHelper::formatCategory
+    func: setcat
+    group: 350
+    position: 60
+  - name: functions
+    label_de: Status / Funktionen
+    status: 1
+    edit: 1
+    delete: 1
+    group: [90,100,90]
+    callable: AlfredListHelper::addFunctions
+    position: 190

@@ -1,0 +1,10 @@
+store_products = Produkte
+store_products_list_view = Liste der Produkte
+
+store_product_settings = Produkt Einstellungen
+
+store_product_edit = Produkt bearbeiten
+store_product_add = Produkt hinzufügen
+
+store_products_master_headline = Produkte
+store_products_master_description = Verwaltung des Produkt-Kataloges

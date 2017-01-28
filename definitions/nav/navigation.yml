@@ -1,0 +1,11 @@
+catalog:
+    name: store_catalog
+    position: 30
+
+sales:
+    name: store_sales
+    position: 70
+
+configuration:
+    name: store_configuration
+    position: 90
