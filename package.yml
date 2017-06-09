@@ -10,3 +10,9 @@ page:
     icon: rex-icon fa-shopping-cart
     subpages:
         settings: { title: 'translate:store_settings', perm: storeadmin[] }
+        store_edit: { title: '', perm: storeadmin[], hidden: 1 }
+
+system_plugins:
+    - products
+    - channels
+    - tools

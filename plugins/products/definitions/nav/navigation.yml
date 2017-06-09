@@ -5,9 +5,11 @@ catalog:
             title_de: Produkte
             title_en: Products
             perm: store[]
-            path: store/products/products
             icon: fa-cube
             position: 20
+            url_parameter:
+                store_path: store/products/products
+                list_icon: fa-sticky-note-o
             subpages:
                 product_variants:
                     callable: none
@@ -15,7 +17,14 @@ catalog:
                 product_edit_standing_link:
                     name: product_edit_standing_link
                     callable: StoreProductNavHelper::addStandingDataFormLink
+                    icon: rex-icon fa-random
+                    class: test-class
                     position: 20
+                    notonly: true
+                product_edit_test_link:
+                    name: product_edit_test_link
+                    callable: StoreProductNavHelper::addTestAdd2
+                    position: 60
                     notonly: true
             subpages_add:
                 product_edit_standing_linkadd:
@@ -23,3 +32,38 @@ catalog:
                     callable: StoreProductNavHelper::addTestAdd
                     position: 20
                     notonly: true
+                product_edit_test_link:
+                    name: product_edit_test_link
+                    callable: StoreProductNavHelper::addTestAdd2
+                    position: 60
+                    notonly: true
+        attributes:
+            name: attributes
+            title_de: Attribute
+            title_en: Attributes
+            perm: store[]
+            icon: fa-cubes
+            position: 70
+            url_parameter:
+                store_path: store/products/attributes
+                list_icon: fa-cube
+        options:
+            name: options
+            title_de: Optionen
+            title_en: Options
+            perm: store[]
+            icon: fa-sliders
+            position: 60
+            url_parameter:
+                store_path: store/products/options
+                list_icon: fa-ellipsis-h
+        datasheets:
+            name: datasheets
+            title_de: Datenblätter
+            title_en: Data sheets
+            perm: store[]
+            icon: fa-tasks
+            position: 40
+            url_parameter:
+                store_path: store/products/datasheets
+                list_icon: fa-file-o

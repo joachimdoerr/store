@@ -1,0 +1,64 @@
+- lang_0:
+    - field_prio: 20
+    - fields_0:
+        - field_prio: 10
+        - name: name
+          type: varchar
+          label: store_categories_name
+          prio: 20
+          list_editable: 1
+          list_position: 30
+
+- fields_0:
+    - field_prio: 40
+    - name: parent
+      type: int
+      label: store_categories_parent_category
+      search: 0
+      prio: 30
+      list_hidden: 1
+      form_callable: StoreCategoryFormHelper::addParentSelectElement
+    - name: status
+      type: bool
+      label: store_categories_status
+      prio: 190
+      list_load: 1
+      list_hidden: 1
+      form_callable: StoreFormHelper::addStatusElement
+    - name: prio
+      type: int
+      label: store_categories_priority
+      search: 0
+      prio: 40
+      list_hidden: 1
+      form_callable: StoreCategoryFormHelper::addPriorityElement
+    - name: functions
+      label: store_list_functions
+      no_db: 1
+      prio: 190
+      list_status: 1
+      list_edit: 1
+      list_delete: 1
+      list_group: [90,100,90]
+      list_callable: StoreListHelper::addFunctions
+      form_hidden: 1
+    - name: createdate
+      type: datetime
+      prio: 500
+      list_hidden: 1
+      form_hidden: 1
+    - name: updatedate
+      type: datetime
+      prio: 500
+      list_hidden: 1
+      form_hidden: 1
+    - name: createuser
+      type: varchar
+      prio: 500
+      list_hidden: 1
+      form_hidden: 1
+    - name: updateuser
+      type: varchar
+      prio: 500
+      list_hidden: 1
+      form_hidden: 1

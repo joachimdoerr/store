@@ -1,7 +1,0 @@
-- fields:
-  - name: name
-    type: varchar
-  - name: iso_alpha_2
-    type: varchar
-  - name: status
-    type: boolean

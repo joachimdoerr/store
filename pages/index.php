@@ -1,15 +1,22 @@
 <?php
+/**
+ * @package store
+ * @author Joachim Doerr
+ * @copyright (C) mail@doerr-softwaredevelopment.com
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
-// TODO cool headlines
+// default title
 $title = rex_view::title(rex_i18n::msg($this->getName() . '_title'));
 // to change title
-$shopTitle = rex_extension::registerPoint(new rex_extension_point(strtoupper($this->getName()) . '_TITLE', $title));
+$storeTitle = rex_extension::registerPoint(new rex_extension_point(strtoupper($this->getName()) . '_TITLE', $title));
 // to add anything to title
-$shopTitle .= rex_extension::registerPoint(new rex_extension_point(strtoupper($this->getName()) . '_TITLE_SHOW', ''));
+$storeTitle .= rex_extension::registerPoint(new rex_extension_point(strtoupper($this->getName()) . '_TITLE_SHOW', ''));
+//
+print $storeTitle;
 
-print $shopTitle;
+// TODO add brotkrümel ?
 
-// TODO add brotkrümel
-
-// exchange
 include rex_be_controller::getCurrentPageObject()->getSubPath();

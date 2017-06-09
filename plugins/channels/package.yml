@@ -8,39 +8,7 @@ page:
     perm: store[]
     hidden: false
     subpages:
-        channels_settings:
-            title: translate:store_channel_settings
-            hidden: false
-            perm: store[]
-        channels_filter_settings:
-            title: translate:store_channels_filter_settings
-            hidden: false
-            perm: store[]
         categories:
-            title: translate:store_categories
+            title: ''
             hidden: false
             perm: store[]
-            navigation: catalog
-            navigation_key: store_categories
-            icon: fa-folder-open-o
-            prio: 10
-            url_parameter: StoreChannelNavHelper::getFirstChannelUrlParameter
-            subpages:
-                callable: StoreChannelNavHelper::addChannelsFilter
-        channels:
-            title: translate:store_channels
-            hidden: false
-            perm: store[]
-            navigation: configuration
-            navigation_key: store_channels
-            icon: fa-random
-            prio: 10
-        shipping:
-            title: translate:store_shipping
-            hidden: false
-            perm: store[]
-
-products:
-    subpages:
-        subpages:
-            callable: StoreChannelNavHelper::addChannelsFilter

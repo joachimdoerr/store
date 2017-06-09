@@ -6,5 +6,23 @@ store_product_settings = Produkt Einstellungen
 store_product_edit = Produkt bearbeiten
 store_product_add = Produkt hinzufügen
 
+# store headlines
+# headline products
 store_products_master_headline = Produkte
 store_products_master_description = Verwaltung des Produkt-Kataloges
+
+# headline attributes
+store_attributes_master_headline = Produkt-Attribute
+store_attributes_master_description = Verwaltung der Produkt-Attribute
+
+store/products/attributes_list_view = Produkt-Attribute
+store/products/attributes_add = Produkt-Attribute hinzufügen
+
+add_mblock_attributes = Attribute Block hinzufügen
+
+
+# products list
+#store_products_code = Art.Nr.
+#store_products_count = Menge
+#store_products_name_1 = Artikelname
+#store_products_price = Preis

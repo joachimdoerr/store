@@ -1,45 +1,60 @@
 <?php
 
+
+//////////////////////////////
 // set get or request parameters
 $params = array(
     'func' => rex_request::request('func', 'string'),
+    'sub_func' => rex_request::request('sub_func', 'string'),
     'id' => rex_request::request('id', 'int'),
     'start' => rex_request::request('start', 'int', NULL),
     'channel' => rex_request::request('channel', 'int'),
     'channel_fail' => rex_request::request('channel_fail', 'boolean', false)
 );
-
 // defaults
 $message = '';
 
-// TODO actions, online/offline, delete
-// TODO show msg
 
+
+//////////////////////////////
 // actions
-if ($params['channel_fail'] == 1) {
+switch ($params['func']) {
+    case 'delete':
+        $message = StoreCategoriesActions::deleteCategory($params);
+        $params['func'] = ''; // go to list...
+        break;
+    case 'status':
+        $message = StoreCategoriesActions::onlineOfflineCategory($params);
+        $params['func'] = ''; // go to list...
+        break;
+}
 
+
+//////////////////////////////
+// channel fail
+if ($params['channel_fail'] == 1) {
     // print content to fragment
     $fragment = new rex_fragment();
     $fragment->setVar('class', 'warning', false);
     $fragment->setVar('title', rex_i18n::msg('store_categories_channel_fail_headline'));
     $fragment->setVar('content', '<div class="panel-body">'.rex_i18n::msg('store_categories_channel_fail_msg').'</div>', false);
     echo $fragment->parse('core/page/section.php');
-
     // unset all views
     $params['func'] = 'fail';
 }
 
+//////////////////////////////
 // load channel
 $sql = rex_sql::factory();
-$sql->setQuery('SELECT * FROM rex_store_channels AS sc WHERE id="'.$params['channel'].'"');
+$sql->setQuery("SELECT * FROM ".StoreChannelsActions::CHANNELS_TABLE." AS sc WHERE id={$params['channel']}");
 $channel = ($sql->getRows() > 0) ? $sql->getRow() : array();
 
-// views
+//////////////////////////////
 // show list
 if ($params['func'] == '' || $params['func'] == 'filter') {
 
     // create list
-    $list = new AlfredListView($this->getAddon()->getName(), 'categories', 30, false, false); // don't create list in constructor
+    $list = new StoreListView($this->getAddon()->getName(), 'categories', 30, false, false); // don't create list in constructor
     // create query by definition
     $selects = $list->createSelect();
 
@@ -53,12 +68,14 @@ if ($params['func'] == '' || $params['func'] == 'filter') {
         }
     }
 
+    $clang = rex_clang::getCurrentId();
+
     // set table key
     $k = $list->getDefinition()->getPayload('table_key');
 
     // create query for sql list for channel
     $query = "
-SELECT  CONCAT(REPEAT('--', level - 1), ' ', $k.$name) AS name,
+SELECT  CONCAT(REPEAT('--', level - 1), ' ', $k.$name) AS name_$clang,
         category_sys_connect_by_path('/', $k.id) AS path,
         parent, level, ".implode(", ", $selects)."
 FROM    (
@@ -68,10 +85,10 @@ FROM    (
                 SELECT  @start_with := {$params['channel']},
                         @id := @start_with,
                         @level := 0
-                ) vars, rex_store_categories
+                ) vars, ".StoreChannelsActions::CATEGORIES_TABLE."
         WHERE   @id IS NOT NULL
         ) ho
-JOIN    rex_store_categories $k
+JOIN    ".StoreChannelsActions::CATEGORIES_TABLE." $k
 ON      $k.id = ho.id
 ORDER BY path
     ";
@@ -101,20 +118,19 @@ ORDER BY path
     $list->addDefaultElements();
 
 
-    $content = '<div class="alfred-list">' . $message . $list->show() . '</div>';
-
     // print content to fragment
     $fragment = new rex_fragment();
     $fragment->setVar('title', sprintf(rex_i18n::msg('store_categories_list_channel_view'), '"'.$channel['sc.name'].'"'));
-    $fragment->setVar('content', $content, false);
+    $fragment->setVar('content', StoreListHelper::wrapList($message, $list), false);
     echo $fragment->parse('core/page/section.php');
 
 
+//////////////////////////////
 // show form
 } elseif ($params['func'] == 'edit' || $params['func'] == 'add') {
 
     // create formular element
-    $form = new AlfredFormView($this->getAddon()->getName(), 'categories', '', $params['id'], false, [array('key'=>'channel', 'type' => 'int', 'default'=>'')]);
+    $form = new StoreFormView($this->getAddon()->getName(), 'categories', '', $params['id'], false, array('key'=>'channel', 'type' => 'int', 'default'=>''));
     // add field elements by deifintions
     $form->addFieldElements();
 
@@ -122,7 +138,7 @@ ORDER BY path
     $fragment = new rex_fragment();
     $fragment->setVar('class', 'edit', false);
     $fragment->setVar('title', ($params['func'] == 'edit') ? rex_i18n::msg('store_category_edit') : rex_i18n::msg('store_add_categories'));
-    $fragment->setVar('body', $message . $form->show(), false);
+    $fragment->setVar('body', StoreFormHelper::wrapForm($message, $form), false);
     echo $fragment->parse('core/page/section.php');
 
 }

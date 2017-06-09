@@ -1,0 +1,156 @@
+- fields_0:
+    - field_prio: 10
+    - field_column: col-md-6
+      field_row: open
+    - name: code
+      type: varchar
+      label_de: Art.Nr.
+      label_en: Art.Code.
+      list_prio: 5
+    - name: count
+      type: int
+      label_de: Aktueller Lagerbestand
+      label_en: Current Stock
+      list_hidden: 1
+    - name: price
+      type: float
+      label: store_products_price
+      list_hidden: 1
+
+- fields_1:
+    - field_prio: 20
+    - field_column: col-md-6
+      field_row: close
+    - name: parent
+      type: int
+      label: stor_products_parent_product
+      list_hidden: 1
+    - name: variants
+      type: text
+      label: stor_products_variants
+      list_hidden: 1
+
+- lang_0:
+    - field_prio: 40
+    - fields_0:
+        - name: name
+          type: varchar
+          label: store_products_name
+          list_prio: 10
+        - name: teaser
+          type: text
+          list_hidden: 1
+          form_type: textarea
+          form_class: redactorEditor2-store_product_teaser
+        - name: text
+          type: text
+          list_hidden: 1
+          form_type: textarea
+          form_class: redactorEditor2-store_product_text
+
+- fields_4:
+    - field_prio: 50
+    - name: attributes
+      type: text
+      list_hidden: 1
+      label_de: Attribut-Blöcke hinzufügen
+      label_de: Add attribute blocks
+      icon: fa-cubes
+      mblock_definition_table: rex_store_attributes
+      mblock_settings_smooth_scroll: 1
+    - name: datasheets
+      type: text
+      list_hidden: 1
+      label_de: Datenblatt-Blöcke hinzufügen
+      label_de: Add datasheet blocks
+      icon: fa-tasks
+      mblock_definition_table: rex_store_datasheets
+      mblock_settings_smooth_scroll: 1
+      mblock_settings_min: 0
+      mblock_settings_max: 5
+
+- fields_2:
+    - field_prio: 60
+    - name: prio
+      type: number
+      label: store_products_priority
+      search: 0
+      prio: 2
+      list_hidden: 1
+      form_type: prio
+      form_prio_label: name_1
+      form_hidden: 0
+    - name: images
+      type: text
+      label: store_products_images
+      prio: 110
+      list_hidden: 1
+      form_hidden: 1
+    - name: status
+      type: bool
+      label: store_products_status
+      prio: 190
+      list_prio: 190
+      list_load: 1
+      list_hidden: 1
+      form_callable: StoreFormHelper::addStatusElement
+    - name: functions
+      label: store_list_functions
+      no_db: 1
+      prio: 190
+      list_prio: 190
+      list_status: 1
+      list_edit: 1
+      list_delete: 1
+      list_group: [90,100,90]
+      list_callable: StoreListHelper::addFunctions
+      func_delete: StoreActionHelper::delete
+      func_status: StoreActionHelper::statuts
+      form_hidden: 1
+    - name: createdate
+      type: datetime
+      prio: 500
+      list_hidden: 1
+      form_hidden: 1
+    - name: updatedate
+      type: datetime
+      prio: 500
+      list_hidden: 1
+      form_hidden: 1
+    - name: createuser
+      type: varchar
+      prio: 500
+      list_hidden: 1
+      form_hidden: 1
+    - name: updateuser
+      type: varchar
+      prio: 500
+      list_hidden: 1
+      form_hidden: 1
+
+
+#- relations:
+#  - name: fushikashira
+#    field: id
+#    type: one_to_many
+#  - name: kogai
+#    field: id
+#    type: one_to_many
+#  - name: koshirae
+#    field: id
+#    type: one_to_many
+#  - name: kozuka
+#    field: id
+#    type: one_to_many
+#  - name: menuki
+#    field: id
+#    type: one_to_many
+#  - name: saya_kodogu
+#    field: id
+#    type: one_to_many
+#  - name: sword
+#    field: id
+#    type: one_to_many
+#  - name: tsuba
+#    field: id
+#    type: one_to_many

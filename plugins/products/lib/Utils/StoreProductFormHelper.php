@@ -12,7 +12,7 @@ class StoreProductFormHelper
         $element = $form->addTextField($item['name']);
 
         // TODO default währung replace for title
-        $element->setLabel(sprintf(AlfredHelper::getLabel($item), '€', 'inkl. MwSt.'));
+        $element->setLabel(sprintf(StoreHelper::getLabel($item), '€', 'inkl. MwSt.'));
 
         if (array_key_exists('style', $item)) {
             $element->setAttribute('style', $item['style']);

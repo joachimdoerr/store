@@ -1,0 +1,12 @@
+package: store/zones
+version: 1.0
+author: Joachim Doerr
+supportpage: https://joachim-doerr.com
+
+page:
+    title: translate:store_channels_zones
+    perm: store[]
+    hidden: false
+    subpages:
+        currencies:
+            title: translate:store_currencies

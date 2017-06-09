@@ -1,0 +1,13 @@
+- lang_0:
+    - field_prio: 30
+    - fields_0:
+        - name: name
+          type: text
+          label_de: Test Name sword
+          label_en: Test Name sword
+          prio: 1
+        - name: name2
+          type: text
+          label_de: Test Name2 sword
+          label_en: Test Name2 sword
+          prio: 2

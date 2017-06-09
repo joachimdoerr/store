@@ -1,10 +1,13 @@
 <?php
-
 /**
- * User: joachimdoerr
- * Date: 21.01.17
- * Time: 17:27
+ * @package store
+ * @author Joachim Doerr
+ * @copyright (C) mail@doerr-softwaredevelopment.com
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
+
 class StoreChannelListHelper
 {
     public static function formatCategory($params)

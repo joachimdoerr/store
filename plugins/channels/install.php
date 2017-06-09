@@ -5,9 +5,11 @@
  * @package shop.dev51
  */
 
+//////////////////////////////
 // add headlines to config
-AlfredHeadlineProvider::addPluginSiteHeadlinesToConfig($this->getAddon()->getName(), $this->getName());
+StoreHeadlineProvider::addPluginSiteHeadlinesToConfig($this->getAddon(), $this->getName());
 
+//////////////////////////////
 // create plugin database schema
-$databaseManager = new AlfredDatabaseManager($this->getAddon()->getName());
+$databaseManager = new StoreDatabaseManager($this->getAddon()->getName());
 $databaseManager->executeCustomTablesHandling();

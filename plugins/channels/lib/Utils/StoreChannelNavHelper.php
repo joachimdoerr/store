@@ -1,10 +1,13 @@
 <?php
-
 /**
- * User: joachimdoerr
- * Date: 25.12.16
- * Time: 01:41
+ * @package store
+ * @author Joachim Doerr
+ * @copyright (C) mail@doerr-softwaredevelopment.com
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
+
 class StoreChannelNavHelper
 {
     /**
@@ -15,20 +18,17 @@ class StoreChannelNavHelper
     public static function addChannelsFilter(array $params = array())
     {
         $sql = rex_sql::factory();
-        $sql->setQuery('SELECT * FROM rex_store_categories AS sc WHERE sc.status = 1 AND sc.parent = 0 ORDER BY sc.prio');
-
+        $sql->setQuery("SELECT * FROM ".StoreChannelsActions::CHANNELS_TABLE." AS sc WHERE sc.status = 1 AND sc.category IS NOT NULL ORDER BY sc.prio");
         $pages = array();
-
         foreach ($sql->getArray() as $value) {
             $pages[] = array(
-                'name' => $value['id'],
-                'title_all' => $value['name_1'],
+                'name' => $value['category'],
+                'title_all' => $value['name'],
                 'url_parameter' => array('channel' => $value['id']),
                 'active_parameter' => 'channel',
-                'id' => $value['id']
+                'id' => $value['category']
             );
         }
-
         return $pages;
     }
 
@@ -56,7 +56,7 @@ class StoreChannelNavHelper
 
     /**
      * @param array $params
-     * @return null
+     * @return mixed
      * @author Joachim Doerr
      */
     public static function getFirstChannelUrlParameter(array $params = array())
@@ -68,8 +68,5 @@ class StoreChannelNavHelper
         } else {
             return array('channel_fail'=>1);
         }
-
-        return null;
     }
-
 }

@@ -1,0 +1,59 @@
+- fields_0:
+    - field_prio: 10
+    - name: code
+      type: varchar
+      label_de: Code
+      label_en: Code
+      prio: 10
+      list_editable: 1
+    - name: name
+      type: varchar
+      label_de: Name
+      label_en: Name
+      prio: 20
+      list_editable: 1
+    - name: definition
+      type: text
+      label_de: Definition
+      label_en: Definition
+      prio: 30
+      list_hidden: 1
+      form_type: textarea
+      form_style: "height: 450px"
+    - name: mblock_settings
+      type: text
+      label_de: MBlock Settings
+      label_en: MBlock settings
+      prio: 40
+      list_hidden: 1
+      form_type: textarea
+    - name: functions
+      label: store_list_functions
+      no_db: 1
+      prio: 190
+      list_status: 0
+      list_edit: 1
+      list_delete: 1
+      list_group: [100,100]
+      list_callable: StoreListHelper::addFunctions
+      form_hidden: 1
+    - name: createdate
+      type: datetime
+      prio: 500
+      list_hidden: 1
+      form_hidden: 1
+    - name: updatedate
+      type: datetime
+      prio: 500
+      list_hidden: 1
+      form_hidden: 1
+    - name: createuser
+      type: varchar
+      prio: 500
+      list_hidden: 1
+      form_hidden: 1
+    - name: updateuser
+      type: varchar
+      prio: 500
+      list_hidden: 1
+      form_hidden: 1

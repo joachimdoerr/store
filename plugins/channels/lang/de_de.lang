@@ -1,8 +1,18 @@
-# defaults
-store_channels = Channels
-store_categories = Kategorien
+# CHANNELS
+# channels master headline
+store_channels_master_headline = Channels
+store_channels_master_description = Verwaltung der Store-Kanäle
 
-# actions
+# channels list / form
+store_channels_list_view = Liste der verfügbaren Kanäle
+store_channels_name = Channel-Name
+store_channels_category = Eltern-Kategorie
+store_add_channels = Channel Hinzufügen
+store_channel_edit = Channel Editieren
+store_channels_prio = Prio
+store_channels_status = Status
+
+# channels actions
 store_category_setcat = Kategorie für Channel erzeugen
 store_category_removecat = Channel Kategorie löschen
 store_category_setcat_goto = zur Channel Kategorie
@@ -12,13 +22,19 @@ store_category_catdelete_success = Die Channel-Kategorie wurde erfolgreich gelö
 store_category_cannot_remove_not_exist = Die Channel-Kategorie konnte nicht gelöscht werden da sie nicht existiert.
 store_category_catdelete_error_is_parent = Das Löschen der Channel-Kategorie ist nicht möglich da diese bereits Unterkategorien besetzt.
 
-# channels
-store_channels_master_headline = Channels
-store_channels_master_description = Verwaltung der Store-Kanäle
-store_channels_list_view = Liste der verfügbaren Kanäle
 
-store_channel_edit = Channel Editieren
-store_add_channels = Channel Hinzufügen
+# CATEGORIES
+# categories list / form
+store_categories_name_1 = Kategorie-Name
+store_categories_parent_category = Eltern-Kategorie
+store_chategories_priority = Prio
+store_categories_name = Name
+store_categories_status = Status
+
+# categories actions
+store_category_delete_success = Die Kategorie wurde erfolgreich gelöscht.
+store_category_delete_error_is_parent = Das Löschen der Kategorie ist nicht möglich da diese bereits Unterkategorien besetzt.
+
 
 # kategorien
 store_categories_master_headline = Kategorien
@@ -44,3 +60,8 @@ store_channel_cannot_delete_because_category_binding = Der Channel kann nicht ge
 store_channel_status_toggle_success = Der Status des Channels wurde erfolgreich geändert
 store_channel_status_toggle_fail = Beim Ändern des Status ist ein Fehler aufgetreten
 store_channel_category_status_toggle_success = Der Status der Channel Kategorie wurde erfolgreich geändert
+
+
+
+# products list
+store_products_categories = Kategorien

@@ -1,13 +1,15 @@
 <?php
-
 /**
- * User: joachimdoerr
- * Date: 23.12.16
- * Time: 10:04
+ * @package store
+ * @author Joachim Doerr
+ * @copyright (C) mail@doerr-softwaredevelopment.com
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
+
 class StoreCategoryFormHelper
 {
-    const CAT_TABLE = 'rex_store_categories';
     /**
      * @param rex_form $form
      * @param array $item
@@ -28,24 +30,25 @@ class StoreCategoryFormHelper
 //         $query_old = 'SELECT name_' . rex_clang::getCurrentId() . ' as name, id, parent as parent_id FROM rex_store_categories ORDER BY prio, name';
         $query = "
 SELECT name_".rex_clang::getCurrentId()." as name, id, parent as parent_id
-FROM `rex_store_categories`
+FROM `".StoreChannelsActions::CATEGORIES_TABLE."`
 WHERE FIND_IN_SET(`id`, (
 SELECT GROUP_CONCAT(Level SEPARATOR ',') FROM (
    SELECT @Ids := (
        SELECT GROUP_CONCAT(`ID` SEPARATOR ',')
-       FROM `rex_store_categories`
+       FROM `".StoreChannelsActions::CATEGORIES_TABLE."`
        WHERE FIND_IN_SET(`parent`, @Ids)
    ) Level
-   FROM `rex_store_categories`
+   FROM `".StoreChannelsActions::CATEGORIES_TABLE."`
    JOIN (SELECT @Ids := $channel) temp1
    WHERE FIND_IN_SET(`parent`, @Ids)
 ) temp2
 )) ORDER by parent,prio;
     ";
 
-        echo '<pre>';
-        print_r($query);
-        echo '</pre>';
+//        echo '<pre>';
+////        print_r($query);
+//        print_r($item);
+//        echo '</pre>';
 
         $element = $form->addSelectField($item['name']);
         $select = $element->getSelect();
@@ -60,7 +63,7 @@ SELECT GROUP_CONCAT(Level SEPARATOR ',') FROM (
             }
         }
 
-        $element->setLabel(AlfredHelper::getLabel($item));
+        $element->setLabel(StoreHelper::getLabel($item));
 
         if (array_key_exists('style', $item)) {
             $element->setAttribute('style', $item['style']);
@@ -78,17 +81,9 @@ SELECT GROUP_CONCAT(Level SEPARATOR ',') FROM (
      */
     public static function addCategoriesSelectElement(rex_form $form, array $item, $id = null)
     {
-//        echo '<pre>';
-//        print_r($item);
-//        echo '</pre>';
-
-        $query = "
-SELECT name_".rex_clang::getCurrentId()." as name, id, parent as parent_id
-FROM `".self::CAT_TABLE."`
-    ";
+        $query = "SELECT name_".rex_clang::getCurrentId()." as name, id, parent as parent_id FROM `".StoreChannelsActions::CATEGORIES_TABLE."`";
 
         $sql = rex_sql::factory();
-//        $sql->setDebug(1);
         $sql->setQuery($query);
 
         $element = $form->addSelectField($item['name']);
@@ -105,8 +100,23 @@ FROM `".self::CAT_TABLE."`
             $sql->next();
         }
 
-        $element->setLabel(AlfredHelper::getLabel($item));
+        if ($form->isEditMode()) {
+            $select->setSelected(explode(',', str_replace(array('[',']', '"'), '', $element->getValue())));
+        }
+
+        $element->setLabel(StoreHelper::getLabel($item));
 
         return $element;
+    }
+
+    public static function addPriorityElement(rex_form $form, array $item, $id = null)
+    {
+        echo 'PRIO TODO in StoreCategoryFormHelper::addPriorityElement';
+//        echo '<pre>';
+//        print_r($item);
+//        echo '</pre>';
+//
+//        $element = $form->addPrioField($item['name'], 'name_1');
+//        $element->setLabelField('name_1');
     }
 }

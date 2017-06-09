@@ -7,7 +7,7 @@ catalog:
             perm: store[]
             path: store/channels/categories
             icon: fa-folder-open-o
-            position: 60
+            position: 10
             url_parameter: StoreChannelNavHelper::getFirstChannelUrlParameter
             subpages:
                 channel_filter:
@@ -28,33 +28,11 @@ configuration:
             title_en: Channels
             hidden: false
             perm: store[]
-            path: store/channels/channels
             icon: fa-random
             position: 10
-        countries:
-            name: countries
-            title_de: Länder
-            title_en: Countries
-            hidden: false
-            perm: store[]
-            path: store/channels/countries
-            icon: fa-flag
-            position: 40
-        zones:
-            name: zones
-            title_de: Zonen
-            title_en: Zones
-            hidden: false
-            perm: store[]
-            path: store/channels/zones
-            icon: fa-globe
-            position: 60
-        currencies:
-            name: currencies
-            title_de: Währungen
-            title_en: Currencies
-            hidden: false
-            perm: store[]
-            path: store/channels/currencies
-            icon: fa-dollar
-            position: 80
+            url_parameter:
+                # addon/plugin/table
+                # addon/table
+                store_path: store/channels/channels
+                rows: 30
+                list_icon: fa-long-arrow-right

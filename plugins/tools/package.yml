@@ -1,0 +1,5 @@
+package: store/tools
+version: 1.0
+author: Joachim Doerr
+supportpage: https://joachim-doerr.com
+compile: 0

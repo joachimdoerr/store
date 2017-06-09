@@ -1,0 +1,13 @@
+store_countries_code2 = Alpha-Iso 2
+store_countries_name_de_de = Land
+store_countries_is_eu = EU-Nation
+
+store_countries_master_headline = Länder
+store_countries_master_description = Verwaltung des Zonen Länder
+
+
+store_zones_master_headline = Zonen
+store_zones_master_description = Verwaltung der geographischen Zonen
+
+store_currencies_master_headline = Währungen
+store_currencies_master_description = Verwaltung der gültigen Währungen
