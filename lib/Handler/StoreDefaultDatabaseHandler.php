@@ -28,14 +28,15 @@ class StoreDefaultDatabaseHandler
 
         foreach ($fieldset as $field) {
             $result = self::handleDatabaseField($field, $columns);
-            if (array_key_exists('create', $result))
+            if (array_key_exists('create', $result)) {
                 $create[] = $result['create'];
-
-            if (array_key_exists('update', $result))
+            }
+            if (array_key_exists('update', $result)) {
                 $update[] = $result['update'];
-
-            if (array_key_exists('select', $result))
+            }
+            if (array_key_exists('select', $result)) {
                 $select[] = $result['select'];
+            }
         }
         return array('update'=>$update, 'create'=>$create, 'select'=>$select);
     }
@@ -58,20 +59,20 @@ class StoreDefaultDatabaseHandler
                     default:
                         $type = $field['type'];
                 }
-
-                if (array_key_exists('no_db', $field) && $field['no_db'] == 1)
+                if (array_key_exists('no_db', $field) && $field['no_db'] == 1) {
                     return array('false');
-
-                if (strpos(strtolower($column['Type']), strtolower($type)) !== false)
+                }
+                if (strpos(strtolower($column['Type']), strtolower($type)) !== false) {
                     return array('select' => $field['name']);
-                else
+                } else {
                     return array(
                         'update' => array('Field' => $field['name'], 'Type' => self::switchColumnType($field['type'])),
                         'select' => $field['name']
                     );
-
-            } else
-                return array('create'=>array('Field' => $field['name'], 'Type' => self::switchColumnType($field['type'])));
+                }
+            } else {
+                return array('create' => array('Field' => $field['name'], 'Type' => self::switchColumnType($field['type'])));
+            }
         }
         return array('false');
     }

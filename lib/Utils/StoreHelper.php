@@ -21,9 +21,9 @@ class StoreHelper
      */
     public static function getPreFormMessage($message)
     {
-        if (!empty($message))
+        if (!empty($message)) {
             return '<div class="store-pre-form-msg">'.$message.'</div>';
-
+        }
         return '';
     }
 
@@ -68,9 +68,9 @@ class StoreHelper
      */
     private static function getPByStorePath($storePath = null)
     {
-        if (is_null($storePath))
+        if (is_null($storePath)) {
             $storePath = rex_request::get('store_path', 'string');
-
+        }
         return explode('/', $storePath);
     }
 
@@ -123,6 +123,7 @@ class StoreHelper
 
     /**
      * @param array $item
+     * @param string $type
      * @return mixed|string
      * @author Joachim Doerr
      */
@@ -136,15 +137,16 @@ class StoreHelper
         // set lang by clang
         foreach ($lang as $value) {
             $property = $type . '_' . $value;
-            if (array_key_exists($property, $item))
+            if (array_key_exists($property, $item)) {
                 return $item[$property];
+            }
         }
-        if (array_key_exists($type, $item))
+        if (array_key_exists($type, $item)) {
             return rex_i18n::msg($item[$type]);
-
-        if (array_key_exists('name', $item))
+        }
+        if (array_key_exists('name', $item)) {
             return rex_i18n::msg($item['name']);
-
+        }
         return '';
     }
 
@@ -158,9 +160,9 @@ class StoreHelper
     {
         $sortCol = array();
         foreach ($arr as $key => $row) {
-            if (is_array($row) && !array_key_exists($col, $row))
+            if (is_array($row) && !array_key_exists($col, $row)) {
                 $row[$col] = NULL;
-
+            }
             $sortCol[$key] = $row[$col];
         }
         array_multisort($sortCol, $dir, $arr);

@@ -2,75 +2,79 @@
 
 class StoreProductNavHelper
 {
+    /**
+     * @param array $params
+     * @return array
+     * @author Joachim Doerr
+     */
     public static function addStandingDataFormLink($params = array())
     {
-        $pages = array(
-            'name' => $params['name'],
-            'title' => $params['name'],
-            'url_parameter' => array('func' => 'edit'),
-            'active_parameter' => 'testedit',
-            'id' => 123,
-            'params' => $params,
-            'icon' => (isset($params['icon'])) ? $params['icon'] : '',
-            'class' => (isset($params['class'])) ? $params['class'] : '',
-        );
+        $pages = array_merge($params, array(
+            'url_parameter' => array(
+                'store_path' => rex_request::get('store_path', 'string'),
+                'rows' => rex_request::get('rows', 'int'),
+                'list_icon' => rex_request::get('list_icon', 'string'),
+                'list' => rex_request::get('list', 'string'),
+                'func' => 'edit',
+                'id' => rex_request::get('id', 'int'),
+                'start' => rex_request::get('start', 'int', ''),
+                'sub_func' => '',
+            ),
+            'active_parameter' => '',
+        ));
 
-        if (rex_request::get('func', 'string', '') == 'edit' && rex_request::get('sub_func', 'string', '') == '') {
+        // disable by func add and add by base edit
+        if ((
+                rex_request::get('func', 'string', '') == 'edit' &&
+                rex_request::get('sub_func', 'string', '') == ''
+            ) or (
+                rex_request::get('func', 'string', '') == 'add'
+            )
+        ) {
             $pages['active'] = true;
             $pages['href'] = '#';
-        }
-
-        #http://nihonto/redaxo/index.php?page=store/products/products&testedit=1
-
-        if (array_key_exists('notonly', $params)) {
-            $pages['notonly'] = $params['notonly'];
+            $pages['link_class'] = 'disable';
         }
 
         return array($pages);
     }
 
+    /**
+     * @param array $params
+     * @return array
+     * @author Joachim Doerr
+     */
     public static function addTestAdd($params = array())
     {
-        $pages = array(
-            'name' => $params['name'],
-            'title' => $params['name'],
-            'url_parameter' => array('testadd' => 1),
-            'active_parameter' => 'testadd',
-            'id' => 123,
-            'params' => $params,
-            'icon' => (isset($params['icon'])) ? $params['icon'] : '',
-            'class' => (isset($params['class'])) ? $params['class'] : '',
-        );
+        $pages = array_merge($params, array(
+            'url_parameter' => array(
+                'store_path' => rex_request::get('store_path', 'string'),
+                'rows' => rex_request::get('rows', 'int'),
+                'list_icon' => rex_request::get('list_icon', 'string'),
+                'list' => rex_request::get('list', 'string'),
+                'func' => 'edit',
+                'id' => rex_request::get('id', 'int'),
+                'start' => rex_request::get('start', 'int', ''),
+                'sub_func' => 'testadd',
+            ),
+            'active_parameter' => '',
+        ));
 
-        if (rex_request::get('func', 'string', '') == 'add' && rex_request::get('sub_func', 'string', '') == '') {
+        // active
+        if (
+            rex_request::get('func', 'string', '') == 'edit' &&
+            rex_request::get('sub_func', 'string', '') == 'testadd'
+        ) {
             $pages['active'] = true;
             $pages['href'] = '#';
+            $pages['link_class'] = 'disable';
         }
-
-        if (array_key_exists('notonly', $params)) {
-            $pages['notonly'] = $params['notonly'];
+        // disable by func add
+        if (rex_request::get('func', 'string', '') == 'add') {
+            $pages['href'] = '#';
+            $pages['link_class'] = 'disable';
         }
 
         return array($pages);
-    }
-
-    public static function addTestAdd2($params = array())
-    {
-        $pages['testadd'] = array(
-            'name' => $params['name'],
-            'title' => $params['name'],
-            'url_parameter' => array('testadd2' => 1),
-            'active_parameter' => 'testadd2',
-            'id' => 1232,
-            'params' => $params,
-            'icon' => (isset($params['icon'])) ? $params['icon'] : '',
-            'class' => (isset($params['class'])) ? $params['class'] : '',
-        );
-
-        if (array_key_exists('notonly', $params)) {
-            $pages['testadd']['notonly'] = $params['notonly'];
-        }
-
-        return $pages;
     }
 }

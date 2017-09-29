@@ -8,6 +8,9 @@
  * file that was distributed with this source code.
  */
 
+
+//////////////////////////////
+// boot tools
 if (rex::isBackend() && rex::getUser()) {
     // add toggle plugin
     // http://www.bootstraptoggle.com

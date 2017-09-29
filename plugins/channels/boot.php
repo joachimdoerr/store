@@ -1,8 +1,11 @@
 <?php
 /**
+ * @package store
  * @author Joachim Doerr
- * @support www.dev51.com
- * @package store.dev51
+ * @copyright (C) mail@doerr-softwaredevelopment.com
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 //////////////////////////////
@@ -66,14 +69,4 @@ if (rex::isBackend() && rex::getUser()) {
         if (rex_request::request('store_path', 'string', '') ==  'store/channels/channels')
             StoreChannelsActions::postSaveChannel($params);
     });
-
-    //////////////////////////////
-    // register for replace default with cool headlines
-//    rex_extension::register('STORE_TITLE', function (rex_extension_point $params) {
-//        // read headline by config
-//        $headline = StoreHeadlineProvider::getPluginSiteHeadlinesByConfig($this->getAddon());
-//        /** @var rex_extension_point $params */
-//        $headlineProvider = new StoreHeadlineProvider();
-//        $headlineProvider->replaceDefaultHeadline($params, $headline['title'], $headline['subtitle'], $headline['icon'], $headline['replace']);
-//    });
 }

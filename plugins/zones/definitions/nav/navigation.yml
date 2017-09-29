@@ -1,5 +1,18 @@
 configuration:
     pages:
+        zones:
+            name: zones
+            title_de: Zonen
+            title_en: Zones
+            hidden: false
+            perm: store[]
+            icon: fa-globe
+            position: 35
+            url_parameter:
+                store_path: store/zones/zones
+                list_icon: fa-globe
+                list: zones
+
         countries:
             name: countries
             title_de: Länder
@@ -16,18 +29,20 @@ configuration:
                 sort: is_eu
                 sorttype: desc
                 list: countries
-#        zones:
-#            name: zones
-#            title_de: Zonen
-#            title_en: Zones
-#            hidden: false
-#            perm: store[]
-#            icon: fa-globe
-#            position: 60
-##            url_parameter:
-##                store_path: store/zones/zones
-##                list_icon: fa-flag-o
-##                list: zones
+
+        counties:
+            name: counties
+            title_de: Staaten
+            title_en: States
+            hidden: false
+            perm: store[]
+            icon: fa-flag-o
+            position: 60
+            url_parameter:
+                store_path: store/zones/counties
+                list_icon: fa-flag-o
+                list: counties
+
 #        currencies:
 #            name: currencies
 #            title_de: Währungen

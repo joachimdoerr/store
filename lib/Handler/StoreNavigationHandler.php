@@ -8,10 +8,7 @@
  * file that was distributed with this source code.
  */
 
-/**
- * Class StoreNavigationHandler
- * TODO description
- */
+
 class StoreNavigationHandler
 {
     const BASE_PATH = 'store/store_edit';
@@ -68,7 +65,6 @@ class StoreNavigationHandler
                         } catch (\Exception $exception) {
                             // TODO add ERROR MSG
                         }
-
                     }
                 }
             }
@@ -87,44 +83,50 @@ class StoreNavigationHandler
         $subpages = self::getSubpages($page);
 
         // only form
-        if (rex_request::get('func') == 'edit')
+        if (rex_request::get('func') == 'edit') {
             // subpages exist? add default!
             $subpages = array_merge($subpages, self::getSubpages($page, 'subpages_form'), self::getSubpages($page, 'subpages_edit')); // subpages exist? add default!
-        elseif (rex_request::get('func') == 'add')
+        } elseif (rex_request::get('func') == 'add') {
             $subpages = array_merge($subpages, self::getSubpages($page, 'subpages_form'), self::getSubpages($page, 'subpages_add')); // subpages exist? add default!
-        else
+        } else {
             $subpages = array_merge($subpages, self::getSubpages($page, 'subpages_list')); // only list
+        }
 
         // subpages to add exist?
         if (sizeof($subpages) > 0) {
             // to add subpages i will use in categories
             rex_extension::register('PAGES_PREPARED', function (rex_extension_point $params) {
-
                 // create page object
                 $page = rex_be_controller::getPageObject($params->getParam('addon'));
                 // use subpage array
                 $subsites = $params->getParam('subsites');
                 $subsitesCount = 0;
 
-                foreach ($subsites as $site)
-                    if (array_key_exists('active_parameter', $site) &&
+                foreach ($subsites as $site) {
+                    if (is_array($site) &&
+                        array_key_exists('active_parameter', $site) &&
                         array_key_exists('url_parameter', $site) &&
                         array_key_exists('name', $site)
-                    )
+                    ) {
                         $subsitesCount++;
+                    }
+                }
 
                 // go for it
                 foreach ($subsites as $key => $site) {
-                    if (!array_key_exists('active_parameter', $site) or
-                        !array_key_exists('url_parameter', $site) or
-                        !array_key_exists('name', $site) or
-                        (array_key_exists('notonly', $site) && ($site['notonly'] == true && $subsitesCount == 1))
-                    )
+                    if (!is_array($site) or (
+                            !array_key_exists('active_parameter', $site) or
+                            !array_key_exists('url_parameter', $site) or
+                            !array_key_exists('name', $site) or
+                            (array_key_exists('notonly', $site) && ($site['notonly'] == true && $subsitesCount == 1))
+                        )
+                    ) {
                         continue;
+                    }
 
                     // create be page object
                     $bePage = new rex_be_page($params->getParam('base_path') . '/' . $site['active_parameter'] . '/' . $site['name'], StoreHelper::getTitle($site));
-                    $bePage->setHref('index.php?page=' . $params->getParam('base_path') . '&' . http_build_query($site['url_parameter']));
+                    $bePage->setHref('index.php?page=' . $params->getParam('base_path') . '&' . http_build_query($site['url_parameter'], null, '&', PHP_QUERY_RFC3986));
 
                     foreach (
                         array(
@@ -134,9 +136,11 @@ class StoreNavigationHandler
                             'pjax' => 'setPjax',
                             'active' => 'setIsActive',
                             'href' => 'setHref'
-                        ) as $property => $method)
-                        if (array_key_exists($property, $site) && !empty($site[$property]))
+                        ) as $property => $method) {
+                        if (array_key_exists($property, $site) && !empty($site[$property])) {
                             $bePage->$method($site[$property]);
+                        }
+                    }
 
                     // if filter setted
                     if (array_key_exists($site['active_parameter'], $site['url_parameter']) && rex_request::request($site['active_parameter']) == $site['url_parameter'][$site['active_parameter']]) {
@@ -145,14 +149,14 @@ class StoreNavigationHandler
                         // TODO ...
                         // add subsub
 
-                        if (array_key_exists('subpages', $site))
+                        if (array_key_exists('subpages', $site)) {
                             foreach ($site['subpages'] as $siteSubpage) {
                                 $beSubpage = new rex_be_page($params->getParam('base_path') . '/' . $site['active_parameter'] . '/' . $site['name'] . '/' . $siteSubpage['name'], $siteSubpage['title']);
                                 // TODO add href
                                 // TODO active
                                 $bePage->addSubpage($beSubpage);
                             }
-
+                        }
                     }
                     // add navigation
                     $page->addSubpage($bePage);
@@ -173,16 +177,21 @@ class StoreNavigationHandler
         $subpages = array();
 
         // subpages exist? add default!
-        if (array_key_exists($key, $page) && is_array($page[$key]) && sizeof($page[$key]) > 0)
-            foreach ($page[$key] as $subpage) // add subpages to subpage array
-                if (is_array($subpage)) // subpage must to be an array
+        if (array_key_exists($key, $page) && is_array($page[$key]) && sizeof($page[$key]) > 0) {
+            foreach ($page[$key] as $subpage) { // add subpages to subpage array
+                if (is_array($subpage)) { // subpage must to be an array
                     if (array_key_exists('callable', $subpage) && strpos($subpage['callable'], '::') !== false) {
                         // add callable for subpages
                         $result = call_user_func_array($subpage['callable'], array($subpage));
-                        if (is_array($result))
+                        if (is_array($result)) {
                             $subpages = array_merge($subpages, $result);
-                    } else
+                        }
+                    } else {
                         $subpages[] = $subpage; // add default subpage
+                    }
+                }
+            }
+        }
 
         return $subpages;
     }
@@ -200,8 +209,9 @@ class StoreNavigationHandler
         if (array_key_exists('url_parameter', $page) && is_string($page['url_parameter']) && strpos($page['url_parameter'], '::') !== false) {
             // callable
             $parameters = call_user_func($page['url_parameter']);
-            if (is_array($parameters))
+            if (is_array($parameters)) {
                 $urlParameters = $parameters;
+            }
         }
 
         return $urlParameters;

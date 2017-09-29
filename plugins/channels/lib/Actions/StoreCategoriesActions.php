@@ -21,6 +21,10 @@ class StoreCategoriesActions
         if ($sql->getRows() > 0)
             return rex_view::error(rex_i18n::msg('store_category_delete_error_is_parent'));
 
+        // check use any product my category?
+//        $sql = rex_sql::factory();
+//        $sql->setQuery("SEleCT * FROM" . StoreProduA::)
+
         // delete category
         StoreActionHelper::deleteData(StoreChannelsActions::CATEGORIES_TABLE, $params['id']);
         return rex_view::info(rex_i18n::msg('store_category_delete_success'));

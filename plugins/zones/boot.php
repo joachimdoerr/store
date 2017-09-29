@@ -6,5 +6,6 @@
  */
 
 // create plugin database schema
-//$databaseManager = new StoreDatabaseManager($this->getAddon()->getName());
-//$databaseManager->executeCustomTablesHandling();
+$databaseManager = new StoreDatabaseManager($this->getAddon()->getName());
+$databaseManager->executeCustomTablesHandling();
+

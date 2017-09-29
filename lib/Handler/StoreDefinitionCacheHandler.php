@@ -73,9 +73,9 @@ class StoreDefinitionCacheHandler
      */
     public function __construct($definition, $searchSchema, $addonName, $cacheFileSchema = null, $definitionListType = 'default')
     {
-        if (!is_null($cacheFileSchema))
+        if (!is_null($cacheFileSchema)) {
             $this->cacheFileSchema = $cacheFileSchema;
-
+        }
         $this->definition = $definition;
         $this->definitionListType = $definitionListType;
         $this->cacheName = $definitionListType . '.' . md5(json_encode($definition) . $searchSchema . $addonName . $definitionListType);
@@ -108,12 +108,12 @@ class StoreDefinitionCacheHandler
      */
     public function isCacheModifiedTimesLessThanFile($file)
     {
-        if (!$this->isCacheFileExist())
+        if (!$this->isCacheFileExist()) {
             return true;
-
-        if (!file_exists($file))
+        }
+        if (!file_exists($file)) {
             throw new \Exception("The file $file to compare modified times is not exists.");
-
+        }
         return (filemtime($file) >= $this->getModifiedTime());
     }
 
@@ -127,9 +127,9 @@ class StoreDefinitionCacheHandler
         array_map('unlink', glob(pathinfo($this->cacheFile, PATHINFO_DIRNAME) . '/' . $this->definitionListType . '*.' . pathinfo($this->cacheFile, PATHINFO_EXTENSION)));
 
         // create path
-        if (!is_dir(pathinfo($this->cacheFile, PATHINFO_DIRNAME)))
+        if (!is_dir(pathinfo($this->cacheFile, PATHINFO_DIRNAME))) {
             mkdir(pathinfo($this->cacheFile, PATHINFO_DIRNAME), 0777, true);
-
+        }
         // put file
         file_put_contents($this->cacheFile, json_encode(array('name'=>$this->cacheName)));
         return $this;

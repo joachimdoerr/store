@@ -22,13 +22,16 @@ class StoreMBlockHelper
         $continue = false;
 
         if (is_array($definitions) && sizeof($definitions) > 0) {
-            foreach ($definitions as $definition)
+            foreach ($definitions as $definition) {
                 $item['mblock_definition'][$definition['code']] = $definition;
-        } else
+            }
+        } else {
             $continue = true;
+        }
 
         return array('continue' => $continue, 'item' => $item);
     }
+
     /**
      * @param mblock_rex_form $form
      * @param array $item
@@ -44,8 +47,9 @@ class StoreMBlockHelper
         $navigation = array();
         foreach ($item['mblock_definition'] as $key => $definition) {
 
-            if (!is_array($definition))
+            if (!is_array($definition)) {
                 $definition = array('name' => $definition);
+            }
 
             if (!isset($definition['search_schema']) && !is_numeric($key)) {
                 $k = explode('/', $key);
@@ -64,7 +68,8 @@ class StoreMBlockHelper
                     'add_store_mblock_block' => 1,
                     'definition_search_schema' => $definition['search_schema'],
                     'item' => $item['name'],
-                    'definition_code' => $definition['code']
+                    'definition_code' => $definition['code'],
+                    'definition_name' => $definition['name']
                 )
             ), true));
 
@@ -82,11 +87,15 @@ class StoreMBlockHelper
         // add label for dropdown link
         $item['mblock_label'] = StoreHelper::getLabel($item, 'label');
 
-        if (!isset($item['mblock_label']))
+        if (!isset($item['mblock_label'])) {
             $item['mblock_label'] = rex_i18n::msg('store_add_mblock_block');
+        }
 
-        if (!isset($item['icon']))
+        if (!isset($item['icon'])) {
             $item['icon'] = 'fa-th-list';
+        }
+
+        // TODO use fragments
 
         // print to form
         $form->addRawField('
@@ -114,20 +123,30 @@ class StoreMBlockHelper
         $item_clone = $item;
 
         foreach ($active as $type) {
-            if (is_array($item_clone['mblock_definition']))
+            if (is_array($item_clone['mblock_definition'])) {
                 foreach ($item_clone['mblock_definition'] as $code => $name) {
                     $d = explode('/', $code);
                     $cd = array_pop($d);
-                    if ($cd == $type)
+                    if ($cd == $type) {
                         $item['mblock_definition'] = $code;
+                    }
                 }
+            }
 
             // use schema is it exist
-            if (isset($item_clone['mblock_definition'][$type]['search_schema']))
+            if (isset($item_clone['mblock_definition'][$type]['search_schema'])) {
                 $item['mblock_definition'] = $item_clone['mblock_definition'][$type]['search_schema'];
-
+            }
+            dump($item_clone);
             $settings = self::getSettings($item_clone, $type);
+
+            // TODO MBlock headline
+            // TODO collapse by settings
+            // TODO collapse open with name
+            $content .= '<h6>'.$item_clone['mblock_definition'][$type]['name'].'</h6>';
+
             $content .= $view->createMBlockFieldset($item, $type, $settings);
+            // TODO collapse close
         }
         $view->form->addRawField('<div class="store_mblock mblock_set_content" data-unique_id="' . $uid . '">' . $content . '</div>');
 
@@ -150,17 +169,20 @@ class StoreMBlockHelper
             false
         );
 
-        // todo if item_name empty == exception
+        // TODO if item_name empty == exception
         $item = array('name' => rex_request::get('item', 'string'));
 
         // load item
-        foreach ($form->items as $set)
-            if (is_array($set))
-                foreach ($set as $key => $value)
+        foreach ($form->items as $set) {
+            if (is_array($set)) {
+                foreach ($set as $key => $value) {
                     if (is_array($value) && array_key_exists('name', $value) && $value['name'] == $item['name']) {
                         $item = array_merge($item, $value);
                         break;
                     }
+                }
+            }
+        }
 
         // set search schema as definition for createMBlockFieldset
         $item['mblock_definition'] = rex_request::get('definition_search_schema', 'string');
@@ -173,12 +195,24 @@ class StoreMBlockHelper
                      'mblock_settings_delete_confirm',
                      'mblock_settings_input_delete',
                      'mblock_settings_smooth_scroll'
-                 ) as $key)
-            if (!is_null(rex_request::get($key, 'int', null)))
+                 ) as $key) {
+            if (!is_null(rex_request::get($key, 'int', null))) {
                 $settings[str_replace('mblock_settings_', '', $key)] = rex_request::get($key, 'int');
+            }
+        }
 
+        $content = '';
+
+        // TODO MBlock headline
+        // TODO collapse by settings
+        // TODO collapse open with name
+        $content = '<h6>'.rex_request::get('definition_name', 'string'). '</h6>';
         // create block
-        return $form->createMBlockFieldset($item, rex_request::get('definition_code', 'string'), $settings);
+        $content .= $form->createMBlockFieldset($item, rex_request::get('definition_code', 'string'), $settings);
+        // TODO collapse close
+
+        // return
+        return $content;
     }
 
     /**
@@ -196,8 +230,9 @@ class StoreMBlockHelper
         $addon = StoreHelper::getAddonByStorePath();
         $plugin = StoreHelper::getPluginByStorePath();
 
-        if ($plugin instanceof rex_plugin)
+        if ($plugin instanceof rex_plugin) {
             $addon = $plugin;
+        }
 
         // save as temp
         foreach ($sql->getArray() as $key => $item) {
@@ -219,9 +254,9 @@ class StoreMBlockHelper
                 $update = new DateTime($item['updatedate']);
                 $create = ($update->getTimestamp() > filectime($file));
             }
-
-            if ($create === true)
+            if ($create === true) {
                 rex_file::put($addon->getPath(sprintf($tempfile, $item['code'])), $item['definition']);
+            }
         }
         return $definitions;
     }
@@ -243,9 +278,11 @@ class StoreMBlockHelper
                      'mblock_settings_delete_confirm',
                      'mblock_settings_input_delete',
                      'mblock_settings_smooth_scroll'
-                 ) as $key)
-            if (isset($item[$key]))
+                 ) as $key) {
+            if (isset($item[$key])) {
                 $settings[str_replace('mblock_settings_', '', $key)] = $item[$key];
+            }
+        }
 
         // settings by type definition
         if (!is_null($type) && is_array($item['mblock_definition']) && isset($item['mblock_definition'][$type])) {
@@ -255,16 +292,19 @@ class StoreMBlockHelper
                     $yml = new \Symfony\Component\Yaml\Yaml();
                     $definition['mblock_settings'] = $yml->parse($definition['mblock_settings']);
                 }
-                if (is_array($definition['mblock_settings']))
+                if (is_array($definition['mblock_settings'])) {
                     foreach (array(
                                  'min',
                                  'max',
                                  'delete_confirm',
                                  'input_delete',
                                  'smooth_scroll'
-                             ) as $key)
-                        if (isset($definition['mblock_settings'][$key]))
+                             ) as $key) {
+                        if (isset($definition['mblock_settings'][$key])) {
                             $settings[$key] = $definition['mblock_settings'][$key];
+                        }
+                    }
+                }
             }
         }
 

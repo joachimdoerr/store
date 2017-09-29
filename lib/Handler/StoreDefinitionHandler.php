@@ -55,10 +55,11 @@ class StoreDefinitionHandler
         $this->searchSchema = $searchSchema;
         $this->definitionType = $definitionListType;
         // set addon name
-        if (rex_addon::exists($addon))
+        if (rex_addon::exists($addon)) {
             $this->addonName = $addon;
-        else
+        } else {
             throw new \Exception("The addon $addon don't exists.");
+        }
     }
 
     /**
@@ -75,11 +76,12 @@ class StoreDefinitionHandler
         $list = array();
 
         // create addon list
-        if (sizeof($addonFiles) > 0)
-            foreach ($addonFiles as $file)
+        if (sizeof($addonFiles) > 0) {
+            foreach ($addonFiles as $file) {
                 if (array_key_exists(pathinfo($file, PATHINFO_FILENAME), $list)) {
-                    if (strpos($file, '/data/') !== false)
+                    if (strpos($file, '/data/') !== false) {
                         $list[pathinfo($file, PATHINFO_FILENAME)]['paths'][$this->getAddonName() . '_data'] = $file;
+                    }
                 } else {
                     $list[pathinfo($file, PATHINFO_FILENAME)] = array(
                         'name' => pathinfo($file, PATHINFO_FILENAME),
@@ -89,16 +91,18 @@ class StoreDefinitionHandler
                         'data_file' => str_replace(array(rex_path::addon($this->addonName), '.yml'), array(rex_path::addonData($this->addonName), '.json'), $file)
                     );
                 }
-
+            }
+        }
         // merge addon and plugin list
-        if (sizeof($pluginsFiles) > 0)
-            foreach ($pluginsFiles as $key => $pluginFiles)
-                foreach ($pluginFiles as $file)
+        if (sizeof($pluginsFiles) > 0) {
+            foreach ($pluginsFiles as $key => $pluginFiles) {
+                foreach ($pluginFiles as $file) {
                     if (array_key_exists(pathinfo($file, PATHINFO_FILENAME), $list)) {
-                        if (strpos($file, '/data/') !== false)
+                        if (strpos($file, '/data/') !== false) {
                             $list[pathinfo($file, PATHINFO_FILENAME)]['paths'][$key . '_data'] = $file;
-                        else
+                        } else {
                             $list[pathinfo($file, PATHINFO_FILENAME)]['paths'][$key] = $file;
+                        }
                     } else {
                         $pluginPath = explode('/', str_replace(rex_path::addon($this->addonName), '', pathinfo($file, PATHINFO_DIRNAME)));
                         unset($pluginPath[0], $pluginPath[1]);
@@ -111,9 +115,11 @@ class StoreDefinitionHandler
                             'data_file' => rex_path::addonData($this->addonName, $pluginPath) . pathinfo($file, PATHINFO_FILENAME) . '.json'
                         );
                     }
-
+                }
+            }
+        }
         // add list item to definition lists
-        if (sizeof($addonFiles) > 0 || sizeof($pluginsFiles) > 0)
+        if (sizeof($addonFiles) > 0 || sizeof($pluginsFiles) > 0) {
             foreach ($list as $listItemName => $listItem) {
                 // init object
                 $item = new DefinitionItem();
@@ -131,6 +137,7 @@ class StoreDefinitionHandler
                 // add to definition lists
                 $this->definition[] = $item;
             }
+        }
 
         return $this->getDefinition();
     }
@@ -166,9 +173,9 @@ class StoreDefinitionHandler
             rex_path::addonData($this->getAddonName())
         );
         // get addon files
-        foreach ($addonSearchPath as $path)
+        foreach ($addonSearchPath as $path) {
             $addonFiles = array_merge($addonFiles, glob($path . $this->getSearchSchema())); // merge all files
-
+        }
         return $addonFiles;
     }
 
@@ -190,9 +197,9 @@ class StoreDefinitionHandler
         // get plugin files
         foreach ($pluginSearchPaths as $plugin => $pluginPaths) {
             $files = array();
-            foreach ($pluginPaths as $path) // merge all files
+            foreach ($pluginPaths as $path) { // merge all files
                 $files = array_merge($files, glob($path . $this->getSearchSchema()));
-
+            }
             // add plugin files
             $pluginFiles[$plugin] = $files;
         }

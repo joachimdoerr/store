@@ -1,5 +1,5 @@
 package: store
-version: '1.0'
+version: 1.2.2
 name: Store
 author: Joachim Doerr
 supportpage: https://joachim-doerr.com
@@ -7,12 +7,14 @@ supportpage: https://joachim-doerr.com
 page:
     title: 'translate:store_title'
     perm: store[]
+#    block: store_configuration
     icon: rex-icon fa-shopping-cart
     subpages:
         settings: { title: 'translate:store_settings', perm: storeadmin[] }
         store_edit: { title: '', perm: storeadmin[], hidden: 1 }
 
 system_plugins:
-    - products
     - channels
+    - products
     - tools
+    - zones

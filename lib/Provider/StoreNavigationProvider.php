@@ -48,14 +48,15 @@ class StoreNavigationProvider
         $this->addonName = $addonName;
         $this->searchSchema = self::SEARCH_SCHEMA;
 
-        if (!is_null($searchSchema))
+        if (!is_null($searchSchema)) {
             $this->searchSchema = $searchSchema;
+        }
     }
 
     public function addCustomNavigation()
     {
         // definition is greater than 0
-        if (sizeof($this->getDefinition()) > 0) // go
+        if (sizeof($this->getDefinition()) > 0) { // go
             foreach ($this->getDefinition() as $definitionItem) { // set definition
                 $definition = $definitionItem->getDefinitions();
                 // sort definition by position
@@ -77,6 +78,7 @@ class StoreNavigationProvider
                 // add navigation
                 StoreNavigationHandler::addNavigation($definition, $this->addonName);
             }
+        }
         return $this;
     }
 
@@ -93,7 +95,6 @@ class StoreNavigationProvider
             $dm->createDefinition(); // read cache or regenerate...
             $this->definition = $dm->getDefinition();
         }
-
         return $this->definition;
     }
 
@@ -105,8 +106,8 @@ class StoreNavigationProvider
     {
         if (is_array($this->getDefinition()) &&
             is_array($this->getDefinition()[0]->getDefinitions()) &&
-            sizeof($this->getDefinition()[0]->getDefinitions()) > 0)
-        {
+            sizeof($this->getDefinition()[0]->getDefinitions()) > 0
+        ) {
             return true;
         } else {
             return false;

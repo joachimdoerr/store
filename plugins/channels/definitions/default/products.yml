@@ -1,4 +1,4 @@
-- fields_1:
+- fields_310:
     - name: categories
       type: varchar
       label_de: Kategorien

@@ -53,7 +53,6 @@ class StoreHeadlineProvider
                     $divs->item(0)->removeChild($childNode);
                 }
             }
-
             // add fragment to
             $divs->item(0)->appendChild($fragment);
         }
@@ -72,6 +71,9 @@ class StoreHeadlineProvider
      */
     public function getCustomHeadline($title = null, $subtitle = null, $icon = null, $button = null)
     {
+
+        // TODO use fragment
+
         return '
 <div class="row">
     <div class="col-xs-12 col-md-8">
@@ -101,8 +103,9 @@ class StoreHeadlineProvider
     public static function getPluginSiteHeadlinesByConfig(rex_addon_interface $addon)
     {
         $page = rex_request::request('page', 'string');
-        if (!empty(rex_request::request('store_path', 'string')))
+        if (!empty(rex_request::request('store_path', 'string'))) {
             $page = rex_request::request('store_path', 'string');
+        }
 
         $p = explode('/', $page);
         $func = rex_request::request('func', 'string', '');
@@ -123,8 +126,9 @@ class StoreHeadlineProvider
                     $subtitle = rex_i18n::msg($addon->getConfig('subheadline_' . $page));
                     $icon = $addon->getConfig('icon_' . $page);
 
-                    if ($func)
+                    if ($func) {
                         $replace = true;
+                    }
                 }
             }
             if (isset($p[1]) && $addon->pluginExists($p[1])) {
@@ -150,8 +154,9 @@ class StoreHeadlineProvider
     public static function addPluginSiteHeadlinesToConfig(rex_addon_interface $addon, $pluginKey = null)
     {
         // plugin exist
-        if (!is_null($pluginKey) && !$addon->pluginExists($pluginKey))
+        if (!is_null($pluginKey) && !$addon->pluginExists($pluginKey)) {
             return false;
+        }
 
         // set addon config
         if (is_null($pluginKey)) {

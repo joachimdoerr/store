@@ -102,13 +102,23 @@ class StoreListView
         $this->rows = $rows;
         $this->debug = $debug;
 
+        if (array_key_exists('sort', $urlParameters) && !empty($urlParameters['sort'])) {
+            $direction = 'ASC';
+            if (array_key_exists('sorttype', $urlParameters)) {
+                $direction = $urlParameters['sorttype'];
+            }
+            $this->createOrderBy($urlParameters['sort'], $direction);
+        }
+
         // definition exist.
-        if (is_array($this->getDefinitionManager()->getDefinition()) && sizeof($this->getDefinitionManager()->getDefinition()) > 0)
+        if (is_array($this->getDefinitionManager()->getDefinition()) && sizeof($this->getDefinitionManager()->getDefinition()) > 0) {
             $this->definition = $this->getDefinitionManager()->getDefinition()[0];
+        }
 
         // check is definition given
-        if (is_null($this->getDefinition()->getDefinitions()))
+        if (is_null($this->getDefinition()->getDefinitions())) {
             rex_logger::logError(001, 'Definitions is null cannot create rex list', StoreListView::class, 97); // error
+        }
 
 //        if (in_array(strtolower('list_order_by'), array_map('strtolower', array_keys($this->getDefinition()->getDefinitions())))) {
 //            echo '<pre>';
@@ -186,18 +196,18 @@ class StoreListView
      */
     public function addItem($fieldset, $addlang_key = '')
     {
-        if (!is_array($fieldset))
+        if (!is_array($fieldset)) {
             return false;
-
-        if (!isset($fieldset['list_load']))
+        }
+        if (!isset($fieldset['list_load'])) {
             $fieldset['list_load'] = 0;
-
+        }
         if (array_key_exists('list_hidden', $fieldset) && $fieldset['list_hidden'] == 1
             xor $fieldset['list_load'] == 1
             or !array_key_exists('name', $fieldset)
-        )
+        ) {
             return false;
-        else {
+        } else {
             $fieldset['name'] = $fieldset['name'] . $addlang_key;
             $this->items[] = $fieldset;
             return true;
@@ -212,24 +222,27 @@ class StoreListView
      */
     public function createList($query = null, $rows = null, $debug = null)
     {
-        if (is_null($query))
+        if (is_null($query)) {
             $query = $this->createQuery();
-
-        if (is_null($rows))
+        }
+        if (is_null($rows)) {
             $rows = $this->rows;
-
-        if (is_null($debug))
+        }
+        if (is_null($debug)) {
             $debug = $this->debug;
-        else {
-            if (!is_bool($debug))
+        } else {
+            if (!is_bool($debug)) {
                 $debug = false;
+            }
         }
 
         $this->list = rex_list::factory($query, $rows, $this->getDefinition()->getName(), $debug);
 
-        if (sizeof($this->urlParameters) > 0)
-            foreach ($this->urlParameters as $parameter => $value)
+        if (sizeof($this->urlParameters) > 0) {
+            foreach ($this->urlParameters as $parameter => $value) {
                 $this->list->addParam($parameter, $value);
+            }
+        }
     }
 
     /**
@@ -254,14 +267,15 @@ class StoreListView
 
         if (is_array($this->items)) {
             foreach ($this->items as $item) {
-                if (array_key_exists('no_db', $item) && $item['no_db'] == 1)
+                if (array_key_exists('no_db', $item) && $item['no_db'] == 1) {
                     continue;
-
-                if (!array_key_exists('callable', $item))
+                }
+                if (!array_key_exists('callable', $item)) {
                     $select[] = $this->getDefinition()->getPayload('table_key') . '.' . $item['name'];
-                else {
-                    if ($item['status'] == 1)
+                } else {
+                    if ($item['status'] == 1) {
                         $select[] = $this->getDefinition()->getPayload('table_key') . '.status';
+                    }
                 }
             }
         }
@@ -291,15 +305,15 @@ class StoreListView
         // TODO add extension point
         // TODO add option for join
 
-        if (empty($this->orderBy))
+        if (empty($this->orderBy)) {
             $this->orderBy = '';
-
-        if (empty($this->where))
+        }
+        if (empty($this->where)) {
             $this->createWhere();
-
-        if (empty($this->selects))
+        }
+        if (empty($this->selects)) {
             $this->createSelect();
-
+        }
         $this->query = 'SELECT ' . implode(', ', $this->selects) . ' FROM ' . $this->getDefinition()->getPayload('table') . ' AS ' . $this->getDefinition()->getPayload('table_key') . ' ' . $this->where . ' ' . $this->orderBy;
         return $this->query;
     }
@@ -332,8 +346,9 @@ class StoreListView
         if (is_array($this->items)) {
             foreach ($this->items as $item) {
                 // name list hidden?
-                if (!array_key_exists('name', $item) or (array_key_exists('list_hidden', $item) && $item['list_hidden'] == 1))
+                if (!array_key_exists('name', $item) or (array_key_exists('list_hidden', $item) && $item['list_hidden'] == 1)) {
                     continue;
+                }
 
                 // default parameter
                 $defaultParam = array('id' => '###id###', 'start' => rex_request::request('start', 'int', NULL));
@@ -351,13 +366,14 @@ class StoreListView
 
                     // add to list group
                     if (array_key_exists('list_group', $item)) {
-                        if (is_array($item['list_group']))
+                        if (is_array($item['list_group'])) {
                             $this->listGroup = array_merge($this->listGroup, $item['list_group']);
-                        else
+                        } else {
                             $this->listGroup[] = $item['list_group'];
-                    } else
+                        }
+                    } else {
                         $this->listGroup[] = '*';
-
+                    }
                     continue;
                 }
                 // format callback
@@ -373,8 +389,9 @@ class StoreListView
                     $this->list->setColumnParams($item['name'], $param);
                 }
                 // sortable
-                if (array_key_exists('list_sort', $item) && $item['list_sort'] == true)
+                if (array_key_exists('list_sort', $item) && $item['list_sort'] == true) {
                     $this->list->setColumnSortable($item['name']);
+                }
 
                 $this->listGroup[] = (array_key_exists('list_group', $item)) ? $item['list_group'] : '*';
             }

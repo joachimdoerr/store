@@ -1,38 +1,41 @@
-- fields_0:
-    - field_prio: 10
-    - field_column: col-md-6
+# 100 INFO TAB
+- tabs_100:
+    field_prio: 100
+    label_de: Informationen
+    label_en: Informations
+
+## 110 INFO FIELDSET
+- fields_110:
+    - field_prio: 110
+    - field_column: col-md-8
       field_row: open
     - name: code
       type: varchar
       label_de: Art.Nr.
       label_en: Art.Code.
       list_prio: 5
-    - name: count
-      type: int
-      label_de: Aktueller Lagerbestand
-      label_en: Current Stock
-      list_hidden: 1
-    - name: price
-      type: float
-      label: store_products_price
-      list_hidden: 1
 
-- fields_1:
-    - field_prio: 20
-    - field_column: col-md-6
+## 120 INFO FIELDSET
+- fields_120:
+    - field_prio: 120
+    - field_column: col-md-4
       field_row: close
-    - name: parent
-      type: int
-      label: stor_products_parent_product
-      list_hidden: 1
-    - name: variants
-      type: text
-      label: stor_products_variants
-      list_hidden: 1
+    #- name: parent
+    #  type: int
+    #  label: stor_products_parent_product
+    #  list_hidden: 1
+    #- name: variants
+    #  type: text
+    #  label: stor_products_variants
+    #  list_hidden: 1
 
-- lang_0:
-    - field_prio: 40
-    - fields_0:
+
+## 130 INFO LANG FIELD
+- lang_130:
+    - field_prio: 130
+    ### 131 LANG FIELDSET
+    - fields_131:
+        - field_prio: 131
         - name: name
           type: varchar
           label: store_products_name
@@ -48,29 +51,9 @@
           form_type: textarea
           form_class: redactorEditor2-store_product_text
 
-- fields_4:
-    - field_prio: 50
-    - name: attributes
-      type: text
-      list_hidden: 1
-      label_de: Attribut-Blöcke hinzufügen
-      label_de: Add attribute blocks
-      icon: fa-cubes
-      mblock_definition_table: rex_store_attributes
-      mblock_settings_smooth_scroll: 1
-    - name: datasheets
-      type: text
-      list_hidden: 1
-      label_de: Datenblatt-Blöcke hinzufügen
-      label_de: Add datasheet blocks
-      icon: fa-tasks
-      mblock_definition_table: rex_store_datasheets
-      mblock_settings_smooth_scroll: 1
-      mblock_settings_min: 0
-      mblock_settings_max: 5
-
-- fields_2:
-    - field_prio: 60
+## 140 INFO FIELDSET
+- fields_140:
+    - field_prio: 140
     - name: prio
       type: number
       label: store_products_priority
@@ -94,6 +77,118 @@
       list_load: 1
       list_hidden: 1
       form_callable: StoreFormHelper::addStatusElement
+
+# 200 PRICES TAB
+- tabs_200:
+    field_prio: 200
+    tab_row: open
+    label_de: Preise
+    label_en: Prices
+
+## 210 PRICES FIELDSET
+- fields_210:
+    - field_prio: 210
+    - name: price
+      type: float
+      label: store_products_price
+      list_hidden: 1
+
+# 300 CATEGORIES TAB
+- tabs_300:
+    field_prio: 300
+    tab_row: open
+    label_de: Kategorien
+    label_en: Categories
+
+## 310 PRICES FIELDSET
+- fields_310:
+    - field_prio: 310
+
+# 400 QUANTITY TAB
+- tabs_400:
+    field_prio: 400
+    tab_row: open
+    label_de: Mengen
+    label_en: Quantity
+
+## 410 QUANTITY FIELDSET
+- fields_410:
+    - field_prio: 410
+    - name: count
+      type: int
+      label_de: Aktueller Lagerbestand
+      label_en: Current Stock
+      list_hidden: 1
+
+# 600 DATASHEETS TAB
+- tabs_600:
+    field_prio: 600
+    tab_row: open
+    label_de: Datenblätter
+    label_en: Data sheets
+
+## 610 DATASHEETS FIELDSET
+- fields_610:
+    - field_prio: 610
+    - name: datasheets
+      type: text
+      list_hidden: 1
+      label_de: Datenblatt-Blöcke hinzufügen
+      label_de: Add datasheet blocks
+      icon: fa-tasks
+      mblock_definition_table: rex_store_datasheets
+      mblock_settings_smooth_scroll: 1
+
+# 700 VARIANT ATTRIBUTES TAB
+- tabs_700:
+    field_prio: 700
+    tab_row: open
+    label_de: Variant Attribute
+    label_en: Variant attributes
+
+- tabs_800:
+    field_prio: 800
+    tab_row: open
+    label_de: Bilder
+    label_en: Images
+
+# 900 OPTIONS TAB
+- tabs_900:
+    field_prio: 900
+    tab_row: open
+    label_de: Benutzeranpassung
+    label_en: Customisation
+
+## 810 OPTIONS FIELDSET
+- fields_910:
+    - field_prio: 910
+    #- name: attributes
+    #  type: text
+    #  list_hidden: 1
+    #  label_de: Attribut-Blöcke hinzufügen
+    #  label_de: Add attribute blocks
+    #  icon: fa-cubes
+    #  mblock_definition_table: rex_store_attributes
+    #  mblock_settings_smooth_scroll: 1
+    - name: options
+      type: text
+      list_hidden: 1
+      label_de: Optionen-Blöcke hinzufügen
+      label_de: Add options blocks
+      icon: fa-sliders
+      mblock_definition_table: rex_store_options
+      mblock_settings_smooth_scroll: 1
+
+
+
+# 1900 TABS CLOSE
+- tabs_1900:
+    field_prio: 1900
+    tab_row: close
+    # label_de: Tab-3
+
+- fields_9900:
+    - field_prio: 9900
     - name: functions
       label: store_list_functions
       no_db: 1
@@ -104,8 +199,6 @@
       list_delete: 1
       list_group: [90,100,90]
       list_callable: StoreListHelper::addFunctions
-      func_delete: StoreActionHelper::delete
-      func_status: StoreActionHelper::statuts
       form_hidden: 1
     - name: createdate
       type: datetime

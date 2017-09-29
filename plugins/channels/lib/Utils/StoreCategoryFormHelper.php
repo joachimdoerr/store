@@ -46,7 +46,7 @@ SELECT GROUP_CONCAT(Level SEPARATOR ',') FROM (
     ";
 
 //        echo '<pre>';
-////        print_r($query);
+//        print_r($query);
 //        print_r($item);
 //        echo '</pre>';
 
@@ -57,6 +57,7 @@ SELECT GROUP_CONCAT(Level SEPARATOR ',') FROM (
         $sql->setQuery($query);
 
         $array = array_merge([array('name'=>'---', 'id'=>$channel, 'parent_id'=>0)],$sql->getArray());
+
         foreach ($array as $value) {
             if ($id != $value['id']) {
                 $select->addOption($value['name'], $value['id'], $value['id'], $value['parent_id']);
@@ -64,6 +65,7 @@ SELECT GROUP_CONCAT(Level SEPARATOR ',') FROM (
         }
 
         $element->setLabel(StoreHelper::getLabel($item));
+        $element->setAttribute('class', 'selectpicker form-control');
 
         if (array_key_exists('style', $item)) {
             $element->setAttribute('style', $item['style']);
@@ -109,14 +111,22 @@ SELECT GROUP_CONCAT(Level SEPARATOR ',') FROM (
         return $element;
     }
 
+    /**
+     * @param rex_form $form
+     * @param array $item
+     * @param null $id
+     * @return mixed|rex_form_element
+     * @author Joachim Doerr
+     */
     public static function addPriorityElement(rex_form $form, array $item, $id = null)
     {
-        echo 'PRIO TODO in StoreCategoryFormHelper::addPriorityElement';
-//        echo '<pre>';
-//        print_r($item);
-//        echo '</pre>';
-//
-//        $element = $form->addPrioField($item['name'], 'name_1');
+        // TODO add text input nummerisch 0 as default by add
+
+        $element = $form->addHiddenField($item['name'],0);
+        return $element;
+
+//        $element = $form->addPrioField($item['name']);
 //        $element->setLabelField('name_1');
+//        $element->setAttribute('class', 'selectpicker form-control');
     }
 }

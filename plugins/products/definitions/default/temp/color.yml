@@ -11,3 +11,8 @@
           label_de: Test Name2 color
           label_en: Test Name2 color
           prio: 2
+        - name: name3
+          type: text
+          label_de: Test Name3 color
+          label_en: Test Name3 color
+          prio: 3

@@ -8,9 +8,25 @@
  * file that was distributed with this source code.
  */
 
+
+//////////////////////////////
+// init event dispatcher
+$event = new StoreEvent();
+$this->setProperty('eventDispatcher', $event);
+
+//////////////////////////////
+// add listener
+StoreEvent::addListener('store_plugin_install', function ($event) {
+    StorePluginEventListener::pluginInstall($event);
+});
+StoreEvent::addListener('store_func_action', function($event) {
+//    StoreRexFormValidationEventListener::executeFuncAction($event);
+});
+
 //////////////////////////////
 // is backend
 if (rex::isBackend() && rex::getUser()) {
+
     //////////////////////////////
     // add assets
     rex_view::addJSFile($this->getAssetsUrl('js/' . $this->getName() . '.js'));
@@ -35,7 +51,7 @@ if (rex::isBackend() && rex::getUser()) {
     });
 
     //////////////////////////////
-    // register for replace default with cool headlines
+    // register for replace default- with cool-headlines
     rex_extension::register('STORE_TITLE', function (rex_extension_point $params) {
         // read headline by config
         $headline = StoreHeadlineProvider::getPluginSiteHeadlinesByConfig($this->getAddon());

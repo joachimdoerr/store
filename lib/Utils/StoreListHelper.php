@@ -21,11 +21,11 @@ class StoreListHelper
         /** @var rex_list $list */
         $list = $params["list"];
 
-        if ($list->getValue("status") == 1)
+        if ($list->getValue("status") == 1) {
             $str = $list->getColumnLink("status", "<span class=\"rex-online\"><i class=\"rex-icon rex-icon-online\"></i> " . rex_i18n::msg('store_online') . "</span>");
-        else
+        } else {
             $str = $list->getColumnLink("status", "<span class=\"rex-offline\"><i class=\"rex-icon rex-icon-offline\"></i> " . rex_i18n::msg('store_offline') . "</span>");
-
+        }
         return $str;
     }
 
@@ -42,11 +42,11 @@ class StoreListHelper
         $colspan = 0;
         $label_prefix = (array_key_exists('addon_key', $parameter)) ? $parameter['addon_key'] . '_' : 'store_';
 
-        foreach (array('list_status', 'list_edit', 'list_delete', 'list_clone') as $value)
-            if (array_key_exists($value, $item))
+        foreach (array('list_status', 'list_edit', 'list_delete', 'list_clone') as $value) {
+            if (array_key_exists($value, $item)) {
                 $colspan++;
-
-
+            }
+        }
 
         $th = "<th colspan=\"$colspan\">###VALUE###</th>";
 
@@ -68,8 +68,12 @@ class StoreListHelper
             if (array_key_exists('list_' . $name, $item) && $item['list_' . $name] == 1) {
                 // Action Edit
                 $list->addColumn($name, rex_i18n::msg('store_' . $name));
-                if ($label) self::setLabel($list, $item, $name, $label_prefix);
-                if ($name == 'delete') $list->addLinkAttribute($name, 'data-confirm', rex_i18n::msg('store_confirm_delete'));
+                if ($label) {
+                    self::setLabel($list, $item, $name, $label_prefix);
+                }
+                if ($name == 'delete') {
+                    $list->addLinkAttribute($name, 'data-confirm', rex_i18n::msg('store_confirm_delete'));
+                }
                 $list->setColumnParams($name, array_merge($parameter, array('func' => $name)));
                 $list->setColumnLayout($name, array($th, '<td>###VALUE###</td>'));
                 $list->setColumnFormat($name, 'custom', array('StoreListHelper', 'addCustomLink'), array('name' => $name, 'icon' => $icon['icon'], 'icon_type' => $icon['icon_type'], 'msg' => rex_i18n::msg('store_' . $name)));
@@ -90,8 +94,9 @@ class StoreListHelper
         /** @var rex_list $list */
         $list = $params['list'];
 
-        if (!array_key_exists('icon_type', $params['params']))
+        if (!array_key_exists('icon_type', $params['params'])) {
             $params['params']['icon_type'] = 'rex-icon';
+        }
 
         return $list->getColumnLink($params['params']['name'], "<span class=\"{$params['params']['icon_type']}\"><i class=\"rex-icon {$params['params']['icon']}\"></i> {$params['params']['msg']}</span>");
     }

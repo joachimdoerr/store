@@ -115,9 +115,9 @@ class StoreDefinitionFileHandler
     public static function writeDefinitionJson(DefinitionItem $definitionItem)
     {
         // create path
-        if (!is_dir(pathinfo($definitionItem->getPayload('data_path'), PATHINFO_DIRNAME)))
+        if (!is_dir(pathinfo($definitionItem->getPayload('data_path'), PATHINFO_DIRNAME))) {
             mkdir(pathinfo($definitionItem->getPayload('data_path'), PATHINFO_DIRNAME), 0777, true);
-
+        }
         // put file
         file_put_contents($definitionItem->getPayload('data_path'), json_encode($definitionItem->getDefinitions()));
     }
@@ -130,9 +130,9 @@ class StoreDefinitionFileHandler
      */
     public static function readDefinitionJson(DefinitionItem $definitionItem, $assoc = false)
     {
-        if (file_exists($definitionItem->getPayload('data_path')))
+        if (file_exists($definitionItem->getPayload('data_path'))) {
             return json_decode(file_get_contents($definitionItem->getPayload('data_path')), $assoc);
-
+        }
         return null;
     }
 

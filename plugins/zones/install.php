@@ -1,13 +1,14 @@
 <?php
 /**
+ * @package store
  * @author Joachim Doerr
- * @support www.dev51.com
- * @package shop.dev51
+ * @copyright (C) mail@doerr-softwaredevelopment.com
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
-// add headlines to config
-StoreHeadlineProvider::addPluginSiteHeadlinesToConfig($this->getAddon()->getName(), $this->getName());
 
-// create plugin database schema
-$databaseManager = new StoreDatabaseManager($this->getAddon()->getName());
-$databaseManager->executeCustomTablesHandling();
+//////////////////////////////
+// dispatch install event
+StoreEvent::dispatch('store_plugin_install', new StorePluginActionEvent($this, $this->getAddon()));

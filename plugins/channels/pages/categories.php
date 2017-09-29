@@ -1,4 +1,12 @@
 <?php
+/**
+ * @package store
+ * @author Joachim Doerr
+ * @copyright (C) mail@doerr-softwaredevelopment.com
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 
 //////////////////////////////
@@ -28,6 +36,7 @@ switch ($params['func']) {
         $params['func'] = ''; // go to list...
         break;
 }
+
 
 
 //////////////////////////////
@@ -130,7 +139,7 @@ ORDER BY path
 } elseif ($params['func'] == 'edit' || $params['func'] == 'add') {
 
     // create formular element
-    $form = new StoreFormView($this->getAddon()->getName(), 'categories', '', $params['id'], false, array('key'=>'channel', 'type' => 'int', 'default'=>''));
+    $form = new StoreFormView($this->getAddon()->getName(), 'categories', '', $params['id'], false, array('channel'=>$params['channel'], 'default'=>''));
     // add field elements by deifintions
     $form->addFieldElements();
 

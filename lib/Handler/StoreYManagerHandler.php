@@ -8,10 +8,7 @@
  * file that was distributed with this source code.
  */
 
-/**
- * Class StoreYManagerHandler
- * TODO description
- */
+
 class StoreYManagerHandler
 {
     /**

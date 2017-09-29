@@ -172,7 +172,7 @@ class StoreChannelsActions
                 // update category
                 $sql->setQuery("UPDATE " . self::CATEGORIES_TABLE . " SET $name prio = {$result[$form->getTableName().'.prio']}, status = $status WHERE id = {$result[$form->getTableName().'.category']}");
 
-                return rex_view::info(rex_i18n::msg('shop_channel_category_change_success'));
+                return rex_view::info(rex_i18n::msg('store_channel_category_change_success'));
             }
         }
         return '';

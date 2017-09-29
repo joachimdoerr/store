@@ -11,9 +11,9 @@
 // default title
 $title = rex_view::title(rex_i18n::msg($this->getName() . '_title'));
 // to change title
-$storeTitle = rex_extension::registerPoint(new rex_extension_point(strtoupper($this->getName()) . '_TITLE', $title));
+$storeTitle = rex_extension::registerPoint(new rex_extension_point('STORE_TITLE', $title));
 // to add anything to title
-$storeTitle .= rex_extension::registerPoint(new rex_extension_point(strtoupper($this->getName()) . '_TITLE_SHOW', ''));
+$storeTitle .= rex_extension::registerPoint(new rex_extension_point('STORE_TITLE_SHOW', ''));
 //
 print $storeTitle;
 

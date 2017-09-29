@@ -111,24 +111,33 @@ class StoreFormView
      */
     public function initForm()
     {
+        /** @var mblock_rex_form|rex_form $form_class */
         $form_class = (class_exists(mblock_rex_form::class)) ? 'mblock_rex_form' : 'rex_form';
 
         // init form
         $this->form = $form_class::factory($this->getDefinition()->getPayload('table'), $this->legend, 'id = ' . $this->id, 'post', $this->debug);
 
-        if ($this->id > 0)
+        if ($this->form instanceof mblock_rex_form) {
+            $this->form->dispatcher = StoreEvent::dispatcher();
+            $this->form->event = new StoreRexFormValidationEvent($this->form);
+        }
+        if ($this->id > 0) {
             $this->form->addParam('id', $this->id);
+        }
 
         $this->form->setApplyUrl(rex_url::currentBackendPage());
         $this->form->setEditMode(($this->id > 0));
         $this->form->addParam('start', rex_request::request('start', 'int'));
 
-        if (sizeof($this->urlParameters) > 0)
-            foreach ($this->urlParameters as $parameter => $value)
-                if (is_array($value))
+        if (sizeof($this->urlParameters) > 0) {
+            foreach ($this->urlParameters as $parameter => $value) {
+                if (is_array($value)) {
                     $this->form->addParam($parameter['key'], rex_request::request($parameter['key'], $parameter['type'], $parameter['default']));
-                else
+                } else {
                     $this->form->addParam($parameter, $value);
+                }
+            }
+        }
     }
 
     /**
@@ -136,18 +145,71 @@ class StoreFormView
      */
     public function addFieldElements()
     {
-        if (is_array($this->items))
+        if (is_array($this->items)) {
+
+            $tab = false;
+            $tabWrapper = false;
+            $tabNav = array();
+
+            // tab wrapper and tab nav?
+            foreach ($this->items as $key => $item) {
+                // set tab
+                if (strpos($key, 'tabs') !== false) {
+                    if (array_key_exists('tab_row', $item) && $item['tab_row'] == 'close') {
+                        continue; // not add close item to tab navigation
+                    }
+
+                    $uId = uniqid();
+                    $this->items[$key]['tab_unique_id'] = $uId;
+                    $tabNav[$uId] = StoreHelper::getLabel($item);
+                }
+            }
+
+            // add navigation an tab wrapper open
+            if (sizeof($tabNav) > 0) {
+                StoreFormHelper::addTabs($this->form, 'wrapper', key($tabNav), null, $tabNav);
+                $tabWrapper = true;
+            }
+
             foreach ($this->items as $key => $item) {
 
-                if (strpos($key, 'lang') !== false)
-                    $this->addLangFieldset($item); // it is a langfieldset
-
-                else if (strpos($key, 'fields') !== false)
-                    $this->addDefaultFieldset($item); // it is a fieldset
-
-                else if (strpos($key, 'panel') !== false)
-                    $this->addPanelFieldset($item); // it is a fieldset
+                // add form elements
+                switch (TRUE) {
+                    case (strpos($key, 'tabs') !== false):
+                        // latest tab is open
+                        if ($tab === true) {
+                            StoreFormHelper::closeTabs($this->form, 'close_inner_wrapper'); // close tab
+                        }
+                        if (array_key_exists('tab_row', $item) && $item['tab_row'] == 'close') {
+                            StoreFormHelper::closeTabs($this->form, 'close_wrapper'); // close tab wrapper
+                            $tab = false;
+                            $tabWrapper = false;
+                            break;
+                        }
+                        StoreFormHelper::addTabs($this->form, 'inner_wrapper', $item['tab_unique_id'], key($tabNav), rex_clang::getCurrentId()); // open tab new tab
+                        $tab = true; // set tab info tab is open
+                        break;
+                    case (strpos($key, 'lang') !== false):
+                        $this->addLangFieldset($item); // it is a langfieldset
+                        break;
+                    case (strpos($key, 'fields') !== false):
+                        $this->addDefaultFieldset($item); // it is a fieldset
+                        break;
+                    case (strpos($key, 'panel') !== false):
+                        $this->addPanelFieldset($item); // it is a fieldset
+                        break;
+                }
             }
+
+            // foreach is closed
+            // latest tab is open
+            if ($tab === true) {
+                StoreFormHelper::closeTabs($this->form, 'close_inner_wrapper'); // close tab
+            }
+            if ($tabWrapper === true) {
+                StoreFormHelper::closeTabs($this->form, 'close_wrapper'); // close tab wrapper
+            }
+        }
     }
 
     /**
@@ -168,10 +230,11 @@ class StoreFormView
             foreach ($fieldset as $value) {
                 // is the value a array
                 if (is_array($value)) { // yes go on
-                    if (array_key_exists('panel_name', $value) && array_key_exists('fields', $value)) // foreach the fieldsets form langfieldset
+                    if (array_key_exists('panel_name', $value) && array_key_exists('fields', $value)) { // foreach the fieldsets form langfieldset
                         $this->addPanelFieldset($value, $clang->getId()); // panel field
-                    else
+                    } else {
                         $this->addDefaultFieldset($value, $clang->getId()); // default lang fields
+                    }
                 }
             }
             // close inner wrapper
@@ -214,39 +277,42 @@ class StoreFormView
         $fieldColumn = false;
 
 //        echo '<pre>';
-//        print_r($_POST);
+//        print_r($fieldset);
 //        echo '</pre>';
 
         foreach ($fieldset as $item) {
-            if (is_array($item) && array_key_exists('field_row', $item) && $item['field_row'] == 'open')
+            if (is_array($item) && array_key_exists('field_row', $item) && $item['field_row'] == 'open') {
                 StoreFormHelper::addColumns($this->form, 'wrapper', $item);
-
-            if (is_array($item) && array_key_exists('field_row', $item) && $item['field_row'] == 'close')
+            }
+            if (is_array($item) && array_key_exists('field_row', $item) && $item['field_row'] == 'close') {
                 $fieldRow = true;
-
-            if (is_array($item) && array_key_exists('field_column', $item))
+            }
+            if (is_array($item) && array_key_exists('field_column', $item)) {
                 $fieldColumn = StoreFormHelper::addColumns($this->form, 'column', $item);
+            }
         }
 
         foreach ($fieldset as $item) {
             // break is not a array
-            if (!is_array($item))
+            if (!is_array($item)) {
                 continue;
-
-            if ($this->namePrefix)
+            }
+            if ($this->namePrefix) {
                 $item['name'] = $this->namePrefix . $item['name'];
-
-            if (!isset($item['mblock_callable']) && isset($item['mblock_definition_table']))
+            }
+            if (!isset($item['mblock_callable']) && isset($item['mblock_definition_table'])) {
                 $item['mblock_callable'] = 'StoreMBlockHelper::getMBlockDefinitions';
+            }
 
             if (isset($item['mblock_callable'])) {
                 $result = call_user_func_array($item['mblock_callable'], array($this, $item));
 
-                if (isset($result['continue']) && $result['continue'] === true)
+                if (isset($result['continue']) && $result['continue'] === true) {
                     continue;
-
-                if (isset($result['item']))
+                }
+                if (isset($result['item'])) {
                     $item = $result['item'];
+                }
             }
 
             // fix definition for mblock area
@@ -263,8 +329,9 @@ class StoreFormView
             }
 
             // is field a lang field
-            if (!is_null($clang) && is_array($item) && array_key_exists('name', $item))
+            if (!is_null($clang) && is_array($item) && array_key_exists('name', $item)) {
                 $item['lang_name'] = $item['name'] . '_' . $clang; // add lang name
+            }
 
             // set element for add more...
             $element = StoreFormHelper::addFormElementByField($this->form, $item, $this->id);
@@ -280,11 +347,12 @@ class StoreFormView
             StoreFormHelper::setElementProperties($element, $item);
         }
 
-        if ($fieldColumn)
+        if ($fieldColumn) {
             StoreFormHelper::addColumns($this->form, 'close_column');
-
-        if ($fieldRow)
+        }
+        if ($fieldRow) {
             StoreFormHelper::addColumns($this->form, 'close_wrapper');
+        }
     }
 
     /**
@@ -294,12 +362,13 @@ class StoreFormView
     private function addMBlockSetFieldset(array $item)
     {
         $active = array();
-        // is edit?
-        if ($this->id > 0) {
+        if ($this->id > 0) { // is edit?
             $row = json_decode($this->form->getSql()->getRow()[$this->form->getTableName() .'.'. $item['name']], true);
-            if (is_array($row) && sizeof($row) > 0)
-                foreach ($row as $key => $value)
+            if (is_array($row) && sizeof($row) > 0) {
+                foreach ($row as $key => $value) {
                     $active[] = $key;
+                }
+            }
         }
 
         $uid = uniqid();

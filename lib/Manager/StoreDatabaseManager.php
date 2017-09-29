@@ -50,8 +50,10 @@ class StoreDatabaseManager
     {
         $this->addonName = $addonName;
         $this->searchSchema = self::SEARCH_SCHEMA;
-        if (!is_null($searchSchema))
+
+        if (!is_null($searchSchema)) {
             $this->searchSchema = $searchSchema;
+        }
 
         $this->definitionListType = $definitionListType;
         $this->definitionManager = new StoreDefinitionManager($this->getAddonName(), $this->getSearchSchema(), $definitionListType);
@@ -144,7 +146,7 @@ class StoreDatabaseManager
 
             $fieldSet = array();
 
-            foreach ($definitionItem->getDefinitions() as $key => $definition)
+            foreach ($definitionItem->getDefinitions() as $key => $definition) {
                 switch (TRUE) {
                     case (strpos($key, 'lang') !== false):
                         $fieldSet = array_merge($fieldSet, StoreYManagerHandler::handleLangDatabaseFieldset($definition, $definitionItem->getPayload('table')));
@@ -153,6 +155,7 @@ class StoreDatabaseManager
                         $fieldSet = array_merge($fieldSet, StoreYManagerHandler::handleDatabaseFieldset($definition, $definitionItem->getPayload('table')));
                         break;
                 }
+            }
 
             $table = rex_yform_manager_table_api::setTable(array('table_name' => $definitionItem->getPayload('table')), $fieldSet);
         }
@@ -165,9 +168,9 @@ class StoreDatabaseManager
      */
     private function storeLangExecution()
     {
-        foreach ($this->getDefinition() as $definitionItem)
+        foreach ($this->getDefinition() as $definitionItem) {
             StoreColumnHelper::addColumnsToTable(StoreColumnHelper::getAllLangColumns($definitionItem->getPayload('table')), $definitionItem->getPayload('table'));
-
+        }
         return true;
     }
 

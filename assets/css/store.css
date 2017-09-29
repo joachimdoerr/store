@@ -239,7 +239,7 @@ i.circular {
     content: "";
     background: #000;
     background: rgba(0, 0, 0, 0.18);
-    height: 4px;
+    height: 2px;
     position: absolute;
     width: 100%;
     left: 0px;
@@ -262,6 +262,75 @@ i.circular {
     padding: 20px;
     background: #fff;
     margin-bottom: 20px;
+}
+
+/* store tabs style */
+
+.store-tabs {
+    margin-left: -15px;
+    margin-right: -15px;
+}
+.store-tabs > .nav {
+    padding-left: 5px;
+    border-bottom: 1px solid #bfe0d8;
+}
+.store-tabs > .store-tabform {
+    padding: 20px 15px 5px 15px;
+    margin-bottom: 10px;
+    background-color: #f1fcfa;
+    border-bottom: 1px solid #bfe0d8;
+}
+
+.store-tabs > .nav.nav-tabs {
+    background-color: #e1ebe5;
+    padding-top: 12px;
+    margin-top: -15px;
+}
+.store-tabs > .nav-tabs > li > a {
+    border: 1px solid #f1f6fc;
+    border-bottom: 0;
+    color: #283541;
+    background: #dfe3e9; /* rgba(66, 180, 148, 0.22); */
+}
+.store-tabs > .nav-tabs > li.active > a,
+.store-tabs > .nav-tabs > li > a:hover {
+    border: none;
+    color: #000;
+    border: 1px solid transparent;
+    background: #f1fcfa;
+}
+.store-tabs > .nav-tabs > li:not(.active) > a:hover {
+    background: #3bb594;
+    border: 1px solid #f1f6fc;
+    border-bottom: 0;
+}
+/*.store-tabs > .nav-tabs > li.active > a,*/
+/*.store-tabs > .nav-tabs > li.active > a:hover,*/
+/*.store-tabs > .nav-tabs > li.active > a:focus {*/
+    /*background-color: #f1fcfa;*/
+    /*border-color: #bfe0d8;*/
+    /*border-top: 2px solid #3bb594;*/
+    /*border-radius: 4px 4px 0 0;*/
+/*}*/
+.store-tabs > .nav-tabs > li > a::before {
+    content: "";
+    background: #4b9ad9;
+    /*background: rgba(0, 0, 0, 0.18);*/
+    height: 2px;
+    position: absolute;
+    width: 100%;
+    left: 0px;
+    top: -2px;
+    transition: all 250ms ease 0s;
+    transform: scale(0);
+}
+.store-tabs > .nav-tabs > li.active > a::before,
+.store-tabs > .nav-tabs > li:hover > a::after {
+    transform: scale(1);
+}
+.store-tabs > .tab-nav > li > a::after {
+    background: #4285F4 none repeat scroll 0% 0%;
+    color: #fff;
 }
 
 /* mblock style and mblock dropdown */

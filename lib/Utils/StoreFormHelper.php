@@ -23,8 +23,9 @@ class StoreFormHelper
      */
     public static function addFormElementByField(rex_form $form, array $item, $id = null)
     {
-        if (array_key_exists('form_hidden', $item) && $item['form_hidden'] == 1)
+        if (array_key_exists('form_hidden', $item) && $item['form_hidden'] == 1) {
             return null;
+        }
 
         if (
             (array_key_exists('type', $item) or array_key_exists('form_type', $item))
@@ -32,13 +33,15 @@ class StoreFormHelper
         ) {
             $name = (array_key_exists('lang_name', $item)) ? $item['lang_name'] : $item['name'];
 
-            if (array_key_exists('form_callable', $item))
+            if (array_key_exists('form_callable', $item)) {
                 return call_user_func_array($item['form_callable'], array($form, $item, $id));
+            }
 
             $type = $item['type'];
 
-            if (array_key_exists('form_type', $item))
+            if (array_key_exists('form_type', $item)) {
                 $type = $item['form_type'];
+            }
 
             switch ($type) {
                 case 'media':
@@ -85,16 +88,17 @@ class StoreFormHelper
     public static function setElementProperties($element, array $item)
     {
         // add label
-        if (is_object($element) && empty($element->getLabel()))
+        if (is_object($element) && empty($element->getLabel())) {
             $element->setLabel(StoreHelper::getLabel($item));
-
+        }
         // add class
-        if (is_object($element) && array_key_exists('form_class', $item))
+        if (is_object($element) && array_key_exists('form_class', $item)) {
             $element->setAttribute('class', $element->getAttribute('class') . ' ' . $item['form_class']);
-
+        }
         // add style
-        if (is_object($element) && array_key_exists('form_style', $item))
+        if (is_object($element) && array_key_exists('form_style', $item)) {
             $element->setAttribute('style', $item['form_style']);
+        }
 
         return $element;
     }
@@ -141,9 +145,9 @@ class StoreFormHelper
                     $form->addRawField('<div class="store-clangtabs"><ul class="nav nav-tabs" role="tablist">');
                     foreach (rex_clang::getAll() as $clang) {
                         $active = '';
-                        if ($key == $clang->getId())
+                        if ($key == $clang->getId()) {
                             $active = ' active';
-
+                        }
                         $form->addRawField("<li role=\"presentation\" class=\"$active\"><a href=\"#lang{$clang->getId()}\" aria-controls=\"home\" role=\"tab\" data-toggle=\"tab\">{$clang->getName()}</a></li>");
                     }
                     $form->addRawField('</ul><div class="tab-content store-tabform">');
@@ -155,9 +159,9 @@ class StoreFormHelper
 
                 case 'inner_wrapper':
                     $active = '';
-                    if ($key == $curClang)
+                    if ($key == $curClang) {
                         $active = ' active';
-
+                    }
                     $form->addRawField("\n\n\n<div id=\"lang$key\" role=\"tabpanel\" class=\"tab-pane $active\">\n");
                     break;
 
@@ -174,6 +178,63 @@ class StoreFormHelper
      * @author Joachim Doerr
      */
     public static function closeLangTabs(rex_form $form, $type)
+    {
+        // close lang tabs
+        StoreFormHelper::addLangTabs($form, $type);
+    }
+
+    /**
+     * @param rex_form $form
+     * @param string $type
+     * @param null $key
+     * @param null $curKey
+     * @param null $nav
+     * @author Joachim Doerr
+     */
+    public static function addTabs(rex_form $form, $type, $key = null, $curKey = null, $nav = null)
+    {
+        if (rex_clang::count() > 1) {
+            switch ($type) {
+                case 'wrapper':
+                    $form->addRawField('<div class="store-tabs"><ul class="nav nav-tabs" role="tablist">');
+                    if (is_array($nav)) {
+                        foreach ($nav as $nKey => $value) {
+                            $active = '';
+                            if ($key == $nKey) {
+                                $active = ' active';
+                            }
+                            $form->addRawField("<li role=\"presentation\" class=\"$active\"><a href=\"#pnl{$nKey}\" aria-controls=\"home\" role=\"tab\" data-toggle=\"tab\">{$value}</a></li>");
+                        }
+                    }
+                    $form->addRawField('</ul><div class="tab-content store-tabform">');
+                    break;
+                case 'navigation':
+                    break;
+                case 'close_wrapper':
+                    $form->addRawField('</div></div>');
+                    break;
+
+                case 'inner_wrapper':
+                    $active = '';
+                    if ($key == $curKey) {
+                        $active = ' active';
+                    }
+                    $form->addRawField("\n\n\n<div id=\"pnl$key\" role=\"tabpanel\" class=\"tab-pane $active\">\n");
+                    break;
+
+                case 'close_inner_wrapper':
+                    $form->addRawField('</div>');
+                    break;
+            }
+        }
+    }
+
+    /**
+     * @param rex_form $form
+     * @param $type
+     * @author Joachim Doerr
+     */
+    public static function closeTabs(rex_form $form, $type)
     {
         // close lang tabs
         StoreFormHelper::addLangTabs($form, $type);
@@ -236,8 +297,9 @@ class StoreFormHelper
             // add toggle button online offline
             $element = $form->addCheckboxField($item['name']);
 
-            if (array_key_exists('label', $item))
+            if (array_key_exists('label', $item)) {
                 $element->setLabel(StoreHelper::getLabel($item));
+            }
 
             $element->addOption('', 1);
             $element->setAttribute('data-toggle', 'toggle');
@@ -253,11 +315,45 @@ class StoreFormHelper
             $select->addOptions(array(1=>'online', 0=>'offline'));
             $element->setLabel(StoreHelper::getLabel($item));
 
-            if (array_key_exists('style', $item))
+            if (array_key_exists('style', $item)) {
                 $element->setAttribute('style', $item['style']);
+            }
         }
 
         return $element;
+    }
+
+    /**
+     * @param rex_form $form
+     * @param array $item
+     * @return mixed|rex_form_select_element
+     * @author Joachim Doerr
+     */
+    public static function addSelectField(rex_form $form, array $item)
+    {
+        $sql = rex_sql::factory();
+        $sql->setQuery($item['query']);
+
+        $element = $form->addSelectField($item['name']);
+        $select = $element->getSelect();
+
+        if (isset($item['multiple']) && $item['multiple']) {
+            $select->setMultiple(true);
+        }
+
+        while($sql->hasNext()) {
+            $select->addOption($sql->getValue('name'), $sql->getValue('id'), $sql->getValue('id'));
+            $sql->next();
+        }
+
+        if ($form->isEditMode()) {
+            $select->setSelected(explode(',', str_replace(array('[',']', '"'), '', $element->getValue())));
+        }
+
+        $element->setLabel(StoreHelper::getLabel($item));
+
+        return $element;
+
     }
 
     /**

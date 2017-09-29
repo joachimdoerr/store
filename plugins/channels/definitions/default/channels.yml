@@ -1,11 +1,13 @@
 - fields_0:
     - field_prio: 50
     - list_order_by: prio
+
     - name: name
       type: text
       label: store_channels_name
       prio: 1
       list_editable: 1
+
     - name: prio
       type: number
       label: store_channels_prio
@@ -14,6 +16,7 @@
       list_hidden: 1
       form_type: prio
       form_prio_label: name
+
     - name: category
       type: int
       label: store_channels_category

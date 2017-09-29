@@ -73,6 +73,20 @@ class StoreActionHelper
 //        return rex_view::info(rex_i18n::msg($table . '_deleted'));
     }
 
+    /**
+     * delete data
+     * @param $table
+     * @param $id
+     * @return boolean
+     * @author Joachim Doerr
+     */
+    static public function statusData($table, $id)
+    {
+        self::toggleBoolData($table, $id, 'status');
+        return true;
+//        return rex_view::info(rex_i18n::msg($table . '_status_changed'));
+    }
+
 
     /**
      * @param rex_extension_point $params

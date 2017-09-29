@@ -10,31 +10,33 @@ catalog:
             url_parameter:
                 store_path: store/products/products
                 list_icon: fa-sticky-note-o
+                sort: prio
+                sorttype: asc
             subpages:
                 product_variants:
                     callable: none
             subpages_edit:
                 product_edit_standing_link:
                     name: product_edit_standing_link
+                    label_de: name
                     callable: StoreProductNavHelper::addStandingDataFormLink
                     icon: rex-icon fa-random
-                    class: test-class
                     position: 20
                     notonly: true
                 product_edit_test_link:
                     name: product_edit_test_link
-                    callable: StoreProductNavHelper::addTestAdd2
+                    callable: StoreProductNavHelper::addTestAdd
                     position: 60
                     notonly: true
             subpages_add:
                 product_edit_standing_linkadd:
                     name: product_edit_standing_link
-                    callable: StoreProductNavHelper::addTestAdd
+                    callable: StoreProductNavHelper::addStandingDataFormLink
                     position: 20
                     notonly: true
                 product_edit_test_link:
                     name: product_edit_test_link
-                    callable: StoreProductNavHelper::addTestAdd2
+                    callable: StoreProductNavHelper::addTestAdd
                     position: 60
                     notonly: true
         attributes:
