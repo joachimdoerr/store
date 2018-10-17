@@ -17,10 +17,10 @@ use Basecondition\View\ListView;
 use Basecondition\Utils\ViewHelper;
 
 $params = array(
-    'store_path' => rex_request::request('store_path', 'string'),
-    'addon' => ViewHelper::getAddonByStorePath(),
-    'plugin' => ViewHelper::getPluginByStorePath(),
-    'search_file' => ViewHelper::getSearchFileByStorePath(),
+    'base_path' => rex_request::request('base_path', 'string'),
+    'addon' => ViewHelper::getAddonByBasePath(),
+    'plugin' => ViewHelper::getPluginByBasePath(),
+    'search_file' => ViewHelper::getSearchFileByBasePath(),
     'func' => rex_request::request('func', 'string'),
     'sub_func' => rex_request::request('sub_func', 'string'),
     'rows' => rex_request::request('rows', 'int', 30),
@@ -34,7 +34,7 @@ $params = array(
 );
 // url parameter
 $params['url_parameters'] = array(
-    'store_path' => $params['store_path'],
+    'base_path' => $params['base_path'],
     'rows' => $params['rows'],
     'list_icon' => $params['list_icon'],
     'list' => $params['search_file'],
@@ -83,13 +83,13 @@ if ($params['func'] == '' && !empty($params['search_file'])) {
         $params['list_init'],
         $params['url_parameters']
     );
-    $list->addIdElement(array('store_path'=>rex_request::request('store_path')), $params['list_icon']); // add id element
+    $list->addIdElement(array('base_path'=>rex_request::request('base_path')), $params['list_icon']); // add id element
     $list->addDefaultElements(); // add defaults by definitions
 
     // parse list to fragment
     $fragment = new rex_fragment();
-    $fragment->setVar('title', rex_i18n::msg($params['store_path'] . '_list_view'));
-    $fragment->setVar('content', ListHelper::wrapList($params['message'], $list, 'store-list'), false);
+    $fragment->setVar('title', rex_i18n::msg($params['base_path'] . '_list_view'));
+    $fragment->setVar('content', ListHelper::wrapList($params['message'], $list), false);
     echo $fragment->parse('core/page/section.php');
 
 
@@ -119,8 +119,8 @@ if ($params['func'] == '' && !empty($params['search_file'])) {
         // parse form to fragment
         $fragment = new rex_fragment();
         $fragment->setVar('class', 'edit', false);
-        $fragment->setVar('title', ($params['func'] == 'edit') ? rex_i18n::msg($params['store_path'] . '_edit') : rex_i18n::msg($params['store_path'] . '_add'));
-        $fragment->setVar('body', FormHelper::wrapForm($params['message'], $form, 'store-form'), false);
+        $fragment->setVar('title', ($params['func'] == 'edit') ? rex_i18n::msg($params['base_path'] . '_edit') : rex_i18n::msg($params['base_path'] . '_add'));
+        $fragment->setVar('body', FormHelper::wrapForm($params['message'], $form), false);
         echo $fragment->parse('core/page/section.php');
 
 

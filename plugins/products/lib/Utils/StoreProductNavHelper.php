@@ -11,7 +11,7 @@ class StoreProductNavHelper
     {
         $pages = array_merge($params, array(
             'url_parameter' => array(
-                'store_path' => rex_request::get('store_path', 'string'),
+                'base_path' => rex_request::get('base_path', 'string'),
                 'rows' => rex_request::get('rows', 'int'),
                 'list_icon' => rex_request::get('list_icon', 'string'),
                 'list' => rex_request::get('list', 'string'),
@@ -48,7 +48,7 @@ class StoreProductNavHelper
     {
         $pages = array_merge($params, array(
             'url_parameter' => array(
-                'store_path' => rex_request::get('store_path', 'string'),
+                'base_path' => rex_request::get('base_path', 'string'),
                 'rows' => rex_request::get('rows', 'int'),
                 'list_icon' => rex_request::get('list_icon', 'string'),
                 'list' => rex_request::get('list', 'string'),

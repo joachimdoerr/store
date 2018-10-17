@@ -1,4 +1,7 @@
 <?php
+
+use Basecondition\Utils\FormHelper;
+
 /**
  * @package store
  * @author Joachim Doerr
@@ -20,7 +23,7 @@ class StoreZonesFormHelper
     public static function addZonesSelectElement(rex_form $form, array $item, $id = null)
     {
         $item['query'] = "SELECT name_en_gb as name, id FROM `rex_store_zones`";
-        return StoreFormHelper::addSelectField($form, $item);
+        return FormHelper::addSelectField($form, $item);
     }
 
     /**
@@ -33,7 +36,7 @@ class StoreZonesFormHelper
     public static function addCountriesSelectElement(rex_form $form, array $item, $id = null)
     {
         $item['query'] = "SELECT name_en_gb as name, id FROM `rex_store_countries`";
-        return StoreFormHelper::addSelectField($form, $item);
+        return FormHelper::addSelectField($form, $item);
     }
 
     /**

@@ -1,4 +1,7 @@
 <?php
+
+use Basecondition\Utils\ViewHelper;
+
 /**
  * @package store
  * @author Joachim Doerr
@@ -64,7 +67,7 @@ SELECT GROUP_CONCAT(Level SEPARATOR ',') FROM (
             }
         }
 
-        $element->setLabel(StoreHelper::getLabel($item));
+        $element->setLabel(ViewHelper::getLabel($item));
         $element->setAttribute('class', 'selectpicker form-control');
 
         if (array_key_exists('style', $item)) {
@@ -106,7 +109,7 @@ SELECT GROUP_CONCAT(Level SEPARATOR ',') FROM (
             $select->setSelected(explode(',', str_replace(array('[',']', '"'), '', $element->getValue())));
         }
 
-        $element->setLabel(StoreHelper::getLabel($item));
+        $element->setLabel(ViewHelper::getLabel($item));
 
         return $element;
     }

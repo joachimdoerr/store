@@ -16,7 +16,7 @@
       list_prio: 190
       list_load: 1
       list_hidden: 1
-      form_callable: StoreFormHelper::addStatusElement
+      form_callable: \Basecondition\Utils\FormHelper::addStatusElement
     - name: functions
       label: store_list_functions
       no_db: 1
@@ -26,7 +26,7 @@
       list_edit: 1
       list_delete: 1
       list_group: [90,100,90]
-      list_callable: StoreListHelper::addFunctions
+      list_callable: \Basecondition\Utils\ListHelper::addFunctions
       form_hidden: 1
     - name: createdate
       type: datetime

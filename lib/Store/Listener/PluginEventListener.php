@@ -15,8 +15,9 @@ use Basecondition\Database\DatabaseManager;
 use rex_addon;
 use rex_dir;
 use rex_plugin;
+use Store\Provider\HeadlineProvider;
 
-class StorePluginEventListener
+class PluginEventListener
 {
     /**
      * @param rex_plugin $plugin
@@ -31,7 +32,7 @@ class StorePluginEventListener
         rex_dir::copy($plugin->getPath('data'), $dataPath); // copy data to data path
 
         // add cool headlines
-        StoreHeadlineProvider::addPluginSiteHeadlinesToConfig($addon, $plugin->getName());
+        HeadlineProvider::addPluginSiteHeadlinesToConfig($addon, $plugin->getName());
 
         // add database schema
         DatabaseManager::provideSchema($addon->getName(), $addon->getDataPath('resources'));

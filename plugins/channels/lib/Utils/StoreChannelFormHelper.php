@@ -1,4 +1,7 @@
 <?php
+
+use Basecondition\Utils\ViewHelper;
+
 /**
  * @package store
  * @author Joachim Doerr
@@ -27,7 +30,7 @@ class StoreChannelFormHelper
                 // add delete button
                 $formElements = array(
                     array(
-                        'label' => StoreHelper::getLabel($item),
+                        'label' => ViewHelper::getLabel($item),
                         'field' => '
                             <a class="btn btn-delete" data-confirm="' . rex_i18n::msg('store_confirm_delete') . '" href="' . $form->getUrl(array('sub_func' => 'delete_cat')) . '">
                                 <i class="rex-icon fa-trash-o"></i> ' . rex_i18n::msg('store_category_removecat') . '
@@ -41,7 +44,7 @@ class StoreChannelFormHelper
             } else {
                 $formElements = array(
                     array(
-                        'label' => StoreHelper::getLabel($item),
+                        'label' => ViewHelper::getLabel($item),
                         'field' => '
                             <a class="btn btn-apply" href="' . $form->getUrl(array('sub_func' => 'add_cat')) . '">
                                 <i class="rex-icon fa-folder-o"></i> ' . rex_i18n::msg('store_category_setcat') . '

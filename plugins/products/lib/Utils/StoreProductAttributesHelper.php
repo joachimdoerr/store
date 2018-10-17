@@ -11,12 +11,12 @@ class StoreProductAttributesHelper
     const TEMP_FILE = 'definitions/default/temp/%s.yml';
 
     /**
-     * @param StoreFormView $storeFormView
+     * @param FormView $storeFormView
      * @param array $item
      * @author Joachim Doerr
      * @return array
      */
-    public static function getAttributeDefinitions(StoreFormView $storeFormView, array $item)
+    public static function getAttributeDefinitions(FormView $storeFormView, array $item)
     {
         $definitions = self::loadDefinitions();
 

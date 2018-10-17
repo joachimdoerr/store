@@ -11,6 +11,7 @@
 //////////////////////////////
 // is backend
 if (rex::isBackend() && rex::getUser()) {
+
     //////////////////////////////
     // add assets
     rex_view::addCssFile($this->getAssetsUrl('css/' . $this->getAddon()->getName() . '_channels.css'));
@@ -22,8 +23,8 @@ if (rex::isBackend() && rex::getUser()) {
 
         if (is_array($parameter)
             && isset($parameter['func'])
-            && isset($parameter['store_path'])
-            && $parameter['store_path'] == 'store/channels/channels'
+            && isset($parameter['base_path'])
+            && $parameter['base_path'] == 'store/channels/channels'
         ) {
 
             switch ($parameter['func']) {
@@ -66,7 +67,7 @@ if (rex::isBackend() && rex::getUser()) {
     //////////////////////////////
     // register form saved action
     rex_extension::register('REX_FORM_SAVED', function (rex_extension_point $params) {
-        if (rex_request::request('store_path', 'string', '') ==  'store/channels/channels')
+        if (rex_request::request('base_path', 'string', '') ==  'store/channels/channels')
             StoreChannelsActions::postSaveChannel($params);
     });
 }

@@ -1,5 +1,7 @@
 <?php
 
+use Basecondition\Utils\ViewHelper;
+
 /**
  * User: joachimdoerr
  * Date: 22.12.16
@@ -12,7 +14,7 @@ class StoreProductFormHelper
         $element = $form->addTextField($item['name']);
 
         // TODO default währung replace for title
-        $element->setLabel(sprintf(StoreHelper::getLabel($item), '€', 'inkl. MwSt.'));
+        $element->setLabel(sprintf(ViewHelper::getLabel($item), '€', 'inkl. MwSt.'));
 
         if (array_key_exists('style', $item)) {
             $element->setAttribute('style', $item['style']);

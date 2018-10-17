@@ -11,6 +11,11 @@
 
 //////////////////////////////
 // set get or request parameters
+use Basecondition\Utils\FormHelper;
+use Basecondition\View\FormView;
+use Basecondition\Utils\ListHelper;
+use Basecondition\View\ListView;
+
 $params = array(
     'func' => rex_request::request('func', 'string'),
     'sub_func' => rex_request::request('sub_func', 'string'),
@@ -63,7 +68,7 @@ $channel = ($sql->getRows() > 0) ? $sql->getRow() : array();
 if ($params['func'] == '' || $params['func'] == 'filter') {
 
     // create list
-    $list = new StoreListView($this->getAddon()->getName(), 'categories', 30, false, false); // don't create list in constructor
+    $list = new ListView($this->getAddon()->getName(), 'categories', 30, false, false); // don't create list in constructor
     // create query by definition
     $selects = $list->createSelect();
 
@@ -80,7 +85,7 @@ if ($params['func'] == '' || $params['func'] == 'filter') {
     $clang = rex_clang::getCurrentId();
 
     // set table key
-    $k = $list->getDefinition()->getPayload('table_key');
+    $k = $list->tableKey;
 
     // create query for sql list for channel
     $query = "
@@ -130,7 +135,7 @@ ORDER BY path
     // print content to fragment
     $fragment = new rex_fragment();
     $fragment->setVar('title', sprintf(rex_i18n::msg('store_categories_list_channel_view'), '"'.$channel['sc.name'].'"'));
-    $fragment->setVar('content', StoreListHelper::wrapList($message, $list), false);
+    $fragment->setVar('content', ListHelper::wrapList($message, $list, 'store-list'), false);
     echo $fragment->parse('core/page/section.php');
 
 
@@ -139,7 +144,7 @@ ORDER BY path
 } elseif ($params['func'] == 'edit' || $params['func'] == 'add') {
 
     // create formular element
-    $form = new StoreFormView($this->getAddon()->getName(), 'categories', '', $params['id'], false, array('channel'=>$params['channel'], 'default'=>''));
+    $form = new FormView($this->getAddon()->getName(), 'categories', '', $params['id'], false, array('channel'=>$params['channel'], 'default'=>''));
     // add field elements by deifintions
     $form->addFieldElements();
 
@@ -147,7 +152,7 @@ ORDER BY path
     $fragment = new rex_fragment();
     $fragment->setVar('class', 'edit', false);
     $fragment->setVar('title', ($params['func'] == 'edit') ? rex_i18n::msg('store_category_edit') : rex_i18n::msg('store_add_categories'));
-    $fragment->setVar('body', StoreFormHelper::wrapForm($message, $form), false);
+    $fragment->setVar('body', FormHelper::wrapForm($message, $form, 'store-form'), false);
     echo $fragment->parse('core/page/section.php');
 
 }

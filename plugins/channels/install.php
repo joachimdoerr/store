@@ -8,15 +8,12 @@
  * file that was distributed with this source code.
  */
 
-
 //////////////////////////////
 // dispatch install event
-StoreEvent::dispatch('store_plugin_install', new StorePluginActionEvent($this, $this->getAddon()));
+rex_extension::registerPoint(new rex_extension_point('STORE_PLUGIN_INSTALL', $this->getName(), array('plugin'=>$this, 'addon'=>$this->getAddon(), 'data_path' => 'resources')));
 
 
-$sql = rex_sql::factory();
-$sql->execute(
-
-    
-
-);
+//$sql = rex_sql::factory();
+//$sql->execute(
+//
+//);

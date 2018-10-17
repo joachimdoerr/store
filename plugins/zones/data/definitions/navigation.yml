@@ -9,7 +9,7 @@ configuration:
             icon: fa-globe
             position: 35
             url_parameter:
-                store_path: store/zones/zones
+                base_path: store/zones/zones
                 list_icon: fa-globe
                 list: zones
 
@@ -22,7 +22,7 @@ configuration:
             icon: fa-flag
             position: 40
             url_parameter:
-                store_path: store/zones/countries
+                base_path: store/zones/countries
                 list_icon: fa-flag-o
                 rows: 45
                 start: 0
@@ -39,7 +39,7 @@ configuration:
             icon: fa-flag-o
             position: 60
             url_parameter:
-                store_path: store/zones/counties
+                base_path: store/zones/counties
                 list_icon: fa-flag-o
                 list: counties
 

@@ -1,4 +1,7 @@
 <?php
+
+use Basecondition\Utils\ActionHelper;
+
 /**
  * @package store
  * @author Joachim Doerr
@@ -87,7 +90,7 @@ class StoreChannelsActions
         $sql->setQuery("UPDATE " . self::CHANNELS_TABLE . " SET category = NULL WHERE id = {$params['id']}");
 
         // delete category
-        StoreActionHelper::deleteData(self::CATEGORIES_TABLE, $channel['sh.category']);
+        ActionHelper::deleteData(self::CATEGORIES_TABLE, $channel['sh.category']);
 
         return rex_view::info(rex_i18n::msg('store_category_catdelete_success'));
     }
@@ -105,14 +108,14 @@ class StoreChannelsActions
         $msg = '';
 
         // set online offline channel
-        if (StoreActionHelper::toggleBoolData(self::CHANNELS_TABLE, $params['id'], 'status'))
+        if (ActionHelper::toggleBoolData(self::CHANNELS_TABLE, $params['id'], 'status'))
             $msg .= rex_view::info(rex_i18n::msg('store_channel_status_toggle_success'));
         else
             return rex_view::warning(rex_i18n::msg('store_channel_status_toggle_fail'));
 
         if (!empty($channel['sh.category'])) {
             // set online offline category
-            if (StoreActionHelper::toggleBoolData(self::CATEGORIES_TABLE, $params['id'], 'status'))
+            if (ActionHelper::toggleBoolData(self::CATEGORIES_TABLE, $params['id'], 'status'))
                 $msg .= rex_view::info(rex_i18n::msg('store_channel_category_status_toggle_success'));
         }
 
@@ -135,7 +138,7 @@ class StoreChannelsActions
             if (!empty($channel['sh.category']))
                 return rex_view::warning(rex_i18n::msg('store_channel_cannot_delete_because_category_binding')); // we cannot delete
             else {
-                StoreActionHelper::deleteData(self::CHANNELS_TABLE, $params['id']); // we can delete
+                ActionHelper::deleteData(self::CHANNELS_TABLE, $params['id']); // we can delete
                 return rex_view::info(rex_i18n::msg('store_channel_delete_success'));
             }
 

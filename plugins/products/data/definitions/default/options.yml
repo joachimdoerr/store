@@ -35,7 +35,7 @@
       list_edit: 1
       list_delete: 1
       list_group: [100,100]
-      list_callable: StoreListHelper::addFunctions
+      list_callable: \Basecondition\Utils\ListHelper::addFunctions
       form_hidden: 1
     - name: createdate
       type: datetime

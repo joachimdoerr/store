@@ -6,11 +6,6 @@
  */
 
 if (rex::isBackend() && rex::getUser()) {
-    // create plugin database schema
-//    $databaseManager = new StoreDatabaseManager($this->getAddon()->getName());
-//    $databaseManager->executeCustomTablesHandling();
-//    StoreHeadlineProvider::addPluginSiteHeadlinesToConfig($this->getAddon(), $this->getName());
-
 
     //////////////////////////////
     // register store func
@@ -21,8 +16,8 @@ if (rex::isBackend() && rex::getUser()) {
         // actions for products
         if (is_array($parameter)
             && isset($parameter['func'])
-            && isset($parameter['store_path'])
-            && $parameter['store_path'] == 'store/products/products'
+            && isset($parameter['base_path'])
+            && $parameter['base_path'] == 'store/products/products'
         ) {
 
             switch ($parameter['func']) {
@@ -48,8 +43,8 @@ if (rex::isBackend() && rex::getUser()) {
         // actions for attributes
         if (is_array($parameter)
             && isset($parameter['func'])
-            && isset($parameter['store_path'])
-            && $parameter['store_path'] == 'store/products/attributes'
+            && isset($parameter['base_path'])
+            && $parameter['base_path'] == 'store/products/attributes'
         ) {
 
             switch ($parameter['func']) {
@@ -65,8 +60,8 @@ if (rex::isBackend() && rex::getUser()) {
         // actions for datasheets
         if (is_array($parameter)
             && isset($parameter['func'])
-            && isset($parameter['store_path'])
-            && $parameter['store_path'] == 'store/products/datasheets'
+            && isset($parameter['base_path'])
+            && $parameter['base_path'] == 'store/products/datasheets'
         ) {
 
             switch ($parameter['func']) {
@@ -82,8 +77,8 @@ if (rex::isBackend() && rex::getUser()) {
         // actions for options
         if (is_array($parameter)
             && isset($parameter['func'])
-            && isset($parameter['store_path'])
-            && $parameter['store_path'] == 'store/products/options'
+            && isset($parameter['base_path'])
+            && $parameter['base_path'] == 'store/products/options'
         ) {
 
             switch ($parameter['func']) {

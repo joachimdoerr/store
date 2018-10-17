@@ -1,5 +1,7 @@
 <?php
 
+use Basecondition\Utils\ActionHelper;
+
 /**
  * User: joachimdoerr
  * Date: 30.01.17
@@ -26,7 +28,7 @@ class StoreCategoriesActions
 //        $sql->setQuery("SEleCT * FROM" . StoreProduA::)
 
         // delete category
-        StoreActionHelper::deleteData(StoreChannelsActions::CATEGORIES_TABLE, $params['id']);
+        ActionHelper::deleteData(StoreChannelsActions::CATEGORIES_TABLE, $params['id']);
         return rex_view::info(rex_i18n::msg('store_category_delete_success'));
     }
 
@@ -38,7 +40,7 @@ class StoreCategoriesActions
     public static function onlineOfflineCategory(array $params)
     {
         // set online offline channel
-        if (StoreActionHelper::toggleBoolData(StoreChannelsActions::CATEGORIES_TABLE, $params['id'], 'status'))
+        if (ActionHelper::toggleBoolData(StoreChannelsActions::CATEGORIES_TABLE, $params['id'], 'status'))
             return rex_view::info(rex_i18n::msg('store_channel_status_toggle_success'));
         else
             return rex_view::warning(rex_i18n::msg('store_channel_status_toggle_fail'));

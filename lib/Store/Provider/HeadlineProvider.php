@@ -20,7 +20,7 @@ use rex_i18n;
 use rex_plugin_interface;
 use rex_request;
 
-class StoreHeadlineProvider
+class HeadlineProvider
 {
     /**
      * @param rex_extension_point $params

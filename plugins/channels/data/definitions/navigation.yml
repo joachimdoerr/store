@@ -1,0 +1,38 @@
+catalog:
+    pages:
+        categories:
+            name: categories
+            title_de: Kategorien
+            title_en: Categories
+            perm: store[]
+            path: store/channels/categories
+            icon: fa-folder-open-o
+            position: 10
+            url_parameter: StoreChannelNavHelper::getFirstChannelUrlParameter
+            subpages:
+                channel_filter:
+                    name: channel_filter
+                    callable: StoreChannelNavHelper::addChannelsFilter
+        products:
+            subpages_form:
+                channel_products_filter:
+                    name: channel_products_filter
+                    callable: StoreChannelNavHelper::addProductsFilter
+                    position: 40
+
+configuration:
+    pages:
+        channels:
+            name: channels
+            title_de: Kanäle
+            title_en: Channels
+            hidden: false
+            perm: store[]
+            icon: fa-random
+            position: 10
+            url_parameter:
+                # addon/plugin/table
+                # addon/table
+                base_path: store/channels/channels
+                rows: 30
+                list_icon: fa-long-arrow-right
