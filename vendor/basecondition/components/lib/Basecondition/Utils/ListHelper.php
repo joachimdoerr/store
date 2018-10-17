@@ -47,7 +47,8 @@ class ListHelper
     {
         $label = true;
         $colspan = 0;
-        $label_prefix = (array_key_exists('addon_key', $parameter)) ? $parameter['addon_key'] . '_' : $labelPrefix;
+
+        $labelPrefix = (array_key_exists('default_label_prefix', $item)) ? $item['default_label_prefix'] : $labelPrefix;
 
         foreach (array('list_status', 'list_edit', 'list_delete', 'list_clone') as $value) {
             if (array_key_exists($value, $item)) {
@@ -59,7 +60,7 @@ class ListHelper
 
         if (array_key_exists('list_status', $item) && $item['list_status'] == 1) {
             // Action Status
-            self::setLabel($list, $item, 'status');
+            self::setLabel($list, $item, 'status', $labelPrefix);
             $list->setColumnParams('status', array_merge($parameter, array('func' => 'status')));
             $list->setColumnLayout('status', array($th, '<td>###VALUE###</td>'));
             $list->setColumnFormat('status', 'custom', array('\Basecondition\Utils\ListHelper', 'formatStatus'));
@@ -74,16 +75,16 @@ class ListHelper
                  ) as $name => $icon)
             if (array_key_exists('list_' . $name, $item) && $item['list_' . $name] == 1) {
                 // Action Edit
-                $list->addColumn($name, rex_i18n::msg($labelPrefix . $name));
+                $list->addColumn($name, rex_i18n::msg($labelPrefix . '_' . $name));
                 if ($label) {
-                    self::setLabel($list, $item, $name, $label_prefix);
+                    self::setLabel($list, $item, $name, $labelPrefix);
                 }
                 if ($name == 'delete') {
                     $list->addLinkAttribute($name, 'data-confirm', rex_i18n::msg('confirm_delete'));
                 }
                 $list->setColumnParams($name, array_merge($parameter, array('func' => $name)));
                 $list->setColumnLayout($name, array($th, '<td>###VALUE###</td>'));
-                $list->setColumnFormat($name, 'custom', array('\Basecondition\Utils\ListHelper', 'addCustomLink'), array('name' => $name, 'icon' => $icon['icon'], 'icon_type' => $icon['icon_type'], 'msg' => rex_i18n::msg($labelPrefix . $name)));
+                $list->setColumnFormat($name, 'custom', array('\Basecondition\Utils\ListHelper', 'addCustomLink'), array('name' => $name, 'icon' => $icon['icon'], 'icon_type' => $icon['icon_type'], 'msg' => rex_i18n::msg($name)));
                 $label = false;
                 $th = '';
             }
@@ -118,6 +119,7 @@ class ListHelper
      */
     public static function setLabel(rex_list $list, array $item, $name, $prefix = '')
     {
+        $prefix = (!empty($prefix)) ? $prefix . '_' : '';
         // set by all
         if (array_key_exists('label', $item)) {
             $list->setColumnLabel($name, rex_i18n::msg($item['label']));

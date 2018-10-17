@@ -53,9 +53,10 @@ class MBlockHelper
      * @param array $active
      * @param string $uid
      * @param string $baseClass
+     * @param null $tableBaseName
      * @author Joachim Doerr
      */
-    public static function addMBlockSetNavigation(mblock_rex_form $form, array $item, array $urlParameters, $id, array $active, $uid, $baseClass = 'base')
+    public static function addMBlockSetNavigation(mblock_rex_form $form, array $item, array $urlParameters, $id, array $active, $uid, $baseClass = 'base', $tableBaseName = null)
     {
         // create navigation
         $navigation = array();
@@ -99,7 +100,7 @@ class MBlockHelper
         }
 
         // add label for dropdown link
-        $item['mblock_label'] = ViewHelper::getLabel($item, 'label');
+        $item['mblock_label'] = ViewHelper::getLabel($item, 'label', $tableBaseName);
 
         if (!isset($item['mblock_label'])) {
             $item['mblock_label'] = rex_i18n::msg('add_mblock_block');
@@ -129,6 +130,7 @@ class MBlockHelper
      * @param array $active
      * @param string $uid
      * @param string $baseClass
+     * @param null $tableBaseName
      * @internal param array $active
      * @author Joachim Doerr
      */

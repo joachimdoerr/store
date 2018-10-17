@@ -1,3 +1,35 @@
+# NAVIGATION
+
+store_catalog_products = Produkte
+store_catalog_attributes = Attribute
+store_catalog_options = Optionen
+store_catalog_datasheets = Datenblätter
+
+
+# PRODUCTS
+
+store/products/products_list_view = Produkte
+store/products/products_edit = Produkt editieren
+store/products/products_add = Produkt hinzufügen
+
+store_products_informations = Informationen
+store_products_code = Art.Nr.
+store_products_name = Produktname
+store_products_teaser = Kurzbeschreibung
+store_products_text = Beschreibung
+store_products_prio = Prio
+store_products_status = Status
+
+store_products_prices = Preis
+store_products_price = Preis
+store_products_quantity = Mengen
+store_products_count = Menge
+store_products_datasheets = Datenblätter
+store_products_variant_attributes = Variant Attributes
+store_products_images = Produkt Bilder
+store_products_customisation = Optionen
+
+
 store_products = Produkte
 store_products_list_view = Liste der Produkte
 

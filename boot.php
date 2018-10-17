@@ -15,12 +15,10 @@ use Basecondition\Utils\MBlockHelper;
 use Store\Listener\PluginEventListener;
 use Store\Provider\HeadlineProvider;
 
-
 // add listener
 rex_extension::register('STORE_PLUGIN_INSTALL', function (rex_extension_point $params) {
     PluginEventListener::pluginInstall($params->getParam('plugin'), $params->getParam('addon'), $params->getParam('data_path'));
 });
-
 
 // is backend
 if (rex::isBackend() && rex::getUser()) {
@@ -54,7 +52,6 @@ if (rex::isBackend() && rex::getUser()) {
 
     // add navigation
     NavigationProvider::manipulateNavigation($this->getName(), 'store/list_form', $this->getDataPath('resources'));
-
 
     // add database schema
     DatabaseManager::provideSchema($this->getName(), $this->getDataPath('resources'));

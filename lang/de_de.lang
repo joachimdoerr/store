@@ -1,3 +1,11 @@
+# NAVIGATION
+
+navigation_store = Store
+navigation_store_catalog = Store Katalog
+navigation_store_configuration = Store Konfiguration
+
+# defaults
+
 store_title = Store
 store_online = online
 store_offline = offline
@@ -6,14 +14,5 @@ store_delete = löschen
 store_clone = klonen
 
 store_confirm_delete = löschen ?
+store_functions = Status/Funktion
 store_list_functions = Status/Funktion
-
-navigation_store = Store
-navigation_store_catalog = Store Katalog
-navigation_store_configuration = Store Konfiguration
-
-store_settings = Allgemeine Einstellungen
-
-
-
-

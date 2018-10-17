@@ -70,12 +70,12 @@ class DatabaseFieldsetHandler
                     return array('select' => $field['name']);
                 } else {
                     return array(
-                        'update' => array('Field' => $field['name'], 'Type' => self::switchColumnType($field['type'])),
+                        'update' => array('Field' => $field['name'], 'Type' => self::switchColumnType($field['type']), 'payload' => $field),
                         'select' => $field['name']
                     );
                 }
             } else {
-                return array('create' => array('Field' => $field['name'], 'Type' => self::switchColumnType($field['type'])));
+                return array('create' => array('Field' => $field['name'], 'Type' => self::switchColumnType($field['type']), 'payload' => $field));
             }
         }
         return array('false');

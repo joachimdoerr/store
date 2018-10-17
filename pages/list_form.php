@@ -45,7 +45,7 @@ $params['url_parameters'] = array(
 
 //////////////////////////////
 // STORE_FUNC_ACTION
-// rest parameter
+// reset parameter
 $params = rex_extension::registerPoint(new rex_extension_point('STORE_FUNC_ACTION', $params));
 
 ///** @var GenericEvent $funcActionEvent */
@@ -84,7 +84,7 @@ if ($params['func'] == '' && !empty($params['search_file'])) {
         $params['url_parameters']
     );
     $list->addIdElement(array('base_path'=>rex_request::request('base_path')), $params['list_icon']); // add id element
-    $list->addDefaultElements(); // add defaults by definitions
+    $list->addDefaultElements(array(), 'store'); // add defaults by definitions
 
     // parse list to fragment
     $fragment = new rex_fragment();
@@ -97,14 +97,24 @@ if ($params['func'] == '' && !empty($params['search_file'])) {
 // show edit
 } elseif (($params['func'] == 'edit' || $params['func'] == 'add') && !empty($params['search_file'])) {
 
+    $formView = false;
+
+    foreach (array('add_cat', 'delete') as $value) {
+        if (strpos($params['sub_func'], $value) !== false) {
+            $formView = true;
+        }
+    }
+
     //////////////////////////////
     // show edit form
-    if ($params['sub_func'] == '') {
+    if ($params['sub_func'] == '' or $formView) {
+
         // add list parameter
         foreach (array('start', 'sort', 'sorttype') as $parameter) {
             $params['url_parameters'][$parameter] = rex_request::request($parameter, 'string');
         }
 
+        //////////////////////////////
         // create form
         $form = new FormView(
             $params['addon']->getName(),
@@ -114,7 +124,16 @@ if ($params['func'] == '' && !empty($params['search_file'])) {
             $params['debug'],
             $params['url_parameters'], true
         );
+
         $form->addFieldElements(); // add field elements by defaults
+
+//        // set apply url
+//        rex_extension::register('REX_FORM_GET', function (rex_extension_point $extension_point) use ($params) {
+//            /** @var rex_form $form */
+//            $form = $extension_point->getSubject();
+//            $form->setApplyUrl($form->getUrl(array_merge(['func' => ''], $params['url_parameters']), false));
+//            return $form;
+//        });
 
         // parse form to fragment
         $fragment = new rex_fragment();
@@ -130,6 +149,7 @@ if ($params['func'] == '' && !empty($params['search_file'])) {
 
         //////////////////////////////
         // execute sub_func
+        echo 'TODO!!! -> store/pages/list_form.php';
         echo '<pre>';
         print_r($params);
         echo '</pre>';

@@ -152,37 +152,42 @@ class ViewHelper
     /**
      * @param array $item
      * @param string $type
+     * @param string $tableBaseName
      * @return bool|mixed|string
      * @author Joachim Doerr
      */
-    public static function getLabel(array $item, $type = 'label')
+    public static function getLabel(array $item, $type = 'label', $tableBaseName = '')
     {
-        return self::getTranslatedStringByItem($item, $type);
+        return self::getTranslatedStringByItem($item, $type, $tableBaseName);
     }
 
     /**
      * @param array $item
+     * @param string $tableBaseName
      * @return bool|mixed|string
      * @author Joachim Doerr
      */
-    public static function getTitle(array $item)
+    public static function getTitle(array $item, $tableBaseName = '')
     {
-        return self::getTranslatedStringByItem($item, 'title');
+        return self::getTranslatedStringByItem($item, 'title', $tableBaseName);
     }
 
     /**
      * @param array $item
      * @param string $type
+     * @param string $table
      * @return mixed|string
      * @author Joachim Doerr
      */
-    public static function getTranslatedStringByItem(array $item, $type)
+    public static function getTranslatedStringByItem(array $item, $type, $table = '')
     {
         // set by all
         if (array_key_exists($type . '_all', $item))
             return $item[$type . '_all'];
 
         $lang = explode('_',rex_i18n::getLocale());
+        $table = (!empty($table)) ? $table . '_' : '';
+
         // set lang by clang
         foreach ($lang as $value) {
             $property = $type . '_' . $value;
@@ -194,7 +199,7 @@ class ViewHelper
             return rex_i18n::msg($item[$type]);
         }
         if (array_key_exists('name', $item)) {
-            return rex_i18n::msg($item['name']);
+            return rex_i18n::msg($table . $item['name']);
         }
         return '';
     }

@@ -13,8 +13,8 @@ use Basecondition\Utils\ActionHelper;
 
 class StoreChannelsActions
 {
-    const CHANNELS_TABLE = 'rex_store_channels';
-    const CATEGORIES_TABLE = 'rex_store_categories';
+    const CHANNELS_TABLE = 'store_channels';
+    const CATEGORIES_TABLE = 'store_categories';
 
     /**
      * @param array $params
@@ -26,13 +26,13 @@ class StoreChannelsActions
         try {
             // load channel
             $sql = rex_sql::factory();
-            $sql->setQuery("SELECT * FROM " . self::CHANNELS_TABLE . " AS sh WHERE id = {$params['id']}");
+            $sql->setQuery("SELECT * FROM " . rex::getTablePrefix() . self::CHANNELS_TABLE . " AS sh WHERE id = {$params['id']}");
             $channel = $sql->getRow();
 
             // category exist?
             if (empty($channel['sh.category'])) {
                 // get free id from categories
-                $sql->setQuery("SELECT id FROM " . self::CATEGORIES_TABLE . " AS sc ORDER BY id DESC LIMIT 1");
+                $sql->setQuery("SELECT id FROM " . rex::getTablePrefix() . self::CATEGORIES_TABLE . " AS sc ORDER BY id DESC LIMIT 1");
 
                 // first entry
                 $id = (empty($sql->getRow())) ? 1 : $sql->getRow()['sc.id'] + 1; // set id from row
@@ -47,16 +47,16 @@ class StoreChannelsActions
                 }
 
                 // create category
-                $sql->setQuery("INSERT INTO " . self::CATEGORIES_TABLE . " (`id`, " . implode(',', $name) . ", `parent`, `prio`, `status`) VALUES ($id, " . implode(',', $nameValue) . ", 0, {$channel['sh.prio']}, 1)");
+                $sql->setQuery("INSERT INTO " . rex::getTablePrefix() . self::CATEGORIES_TABLE . " (`id`, " . implode(',', $name) . ", `parent`, `prio`, `status`) VALUES ($id, " . implode(',', $nameValue) . ", 0, null, 1)");
                 // set category id to channel
-                $sql->setQuery('UPDATE ' . self::CHANNELS_TABLE . ' SET category = ' . $id . ' WHERE id = ' . $params['id']);
+                $sql->setQuery('UPDATE ' . rex::getTablePrefix() . self::CHANNELS_TABLE . ' SET category = ' . $id . ' WHERE id = ' . $params['id']);
 
                 // msg successful
                 return rex_view::success(rex_i18n::msg('store_category_setcat_success'));
 
             } else {
                 // redirect to category list
-                header('Location: ' . rex_url::backendPage('store/channels/categories') . '&channel=' . $channel['sh.category']);
+                rex_response::sendRedirect(rex_url::backendPage('store/channels/categories') . '&channel=' . $channel['sh.category']);
                 return '';
             }
         } catch (\Exception $e) {
@@ -74,23 +74,23 @@ class StoreChannelsActions
     {
         // get id
         $sql = rex_sql::factory();
-        $sql->setQuery('SELECT * FROM ' . self::CHANNELS_TABLE . ' AS sh WHERE id = ' . $params['id']);
+        $sql->setQuery('SELECT * FROM ' . rex::getTablePrefix() . self::CHANNELS_TABLE . ' AS sh WHERE id = ' . $params['id']);
         $channel = $sql->getRow();
 
         if (empty($channel['sh.category']))
             return rex_view::warning(rex_i18n::msg('store_category_cannot_remove_not_exist'));
 
         // check use any category my category as parent?
-        $sql->setQuery("SELECT * FROM " . self::CATEGORIES_TABLE . " WHERE parent = {$channel['sh.category']}");
+        $sql->setQuery("SELECT * FROM " . rex::getTablePrefix() . self::CATEGORIES_TABLE . " WHERE parent = {$channel['sh.category']}");
 
         if ($sql->getRows() > 0)
             return rex_view::error(rex_i18n::msg('store_category_catdelete_error_is_parent'));
 
         // update channel remove id from chategory
-        $sql->setQuery("UPDATE " . self::CHANNELS_TABLE . " SET category = NULL WHERE id = {$params['id']}");
+        $sql->setQuery("UPDATE " . rex::getTablePrefix() . self::CHANNELS_TABLE . " SET category = NULL WHERE id = {$params['id']}");
 
         // delete category
-        ActionHelper::deleteData(self::CATEGORIES_TABLE, $channel['sh.category']);
+        ActionHelper::deleteData(rex::getTablePrefix() . self::CATEGORIES_TABLE, $channel['sh.category']);
 
         return rex_view::info(rex_i18n::msg('store_category_catdelete_success'));
     }
@@ -100,22 +100,22 @@ class StoreChannelsActions
      * @return string
      * @author Joachim Doerr
      */
-    public static function onlineOfflineChannel(array $params)
+    public static function onlineOffline(array $params)
     {
         $sql = rex_sql::factory();
-        $sql->setQuery("SELECT * FROM " . self::CHANNELS_TABLE . " AS sh WHERE id = {$params['id']}");
+        $sql->setQuery("SELECT * FROM " . rex::getTablePrefix() . self::CHANNELS_TABLE . " AS sh WHERE id = {$params['id']}");
         $channel = $sql->getRow();
         $msg = '';
 
         // set online offline channel
-        if (ActionHelper::toggleBoolData(self::CHANNELS_TABLE, $params['id'], 'status'))
+        if (ActionHelper::toggleBoolData(rex::getTablePrefix() . self::CHANNELS_TABLE, $params['id'], 'status'))
             $msg .= rex_view::info(rex_i18n::msg('store_channel_status_toggle_success'));
         else
             return rex_view::warning(rex_i18n::msg('store_channel_status_toggle_fail'));
 
         if (!empty($channel['sh.category'])) {
             // set online offline category
-            if (ActionHelper::toggleBoolData(self::CATEGORIES_TABLE, $params['id'], 'status'))
+            if (ActionHelper::toggleBoolData(rex::getTablePrefix() . self::CATEGORIES_TABLE, $params['id'], 'status'))
                 $msg .= rex_view::info(rex_i18n::msg('store_channel_category_status_toggle_success'));
         }
 
@@ -127,18 +127,18 @@ class StoreChannelsActions
      * @return string
      * @author Joachim Doerr
      */
-    public static function deleteChannel(array $params)
+    public static function delete(array $params)
     {
         try {
             // load channel
             $sql = rex_sql::factory();
-            $sql->setQuery("SELECT * FROM " . self::CHANNELS_TABLE . " AS sh WHERE id = {$params['id']}");
+            $sql->setQuery("SELECT * FROM " . rex::getTablePrefix() . self::CHANNELS_TABLE . " AS sh WHERE id = {$params['id']}");
             $channel = $sql->getRow();
 
             if (!empty($channel['sh.category']))
                 return rex_view::warning(rex_i18n::msg('store_channel_cannot_delete_because_category_binding')); // we cannot delete
             else {
-                ActionHelper::deleteData(self::CHANNELS_TABLE, $params['id']); // we can delete
+                ActionHelper::deleteData(rex::getTablePrefix() . self::CHANNELS_TABLE, $params['id']); // we can delete
                 return rex_view::info(rex_i18n::msg('store_channel_delete_success'));
             }
 
@@ -153,7 +153,7 @@ class StoreChannelsActions
      * @author Joachim Doerr
      * @return string
      */
-    public static function postSaveChannel(rex_extension_point $params)
+    public static function postSave(rex_extension_point $params)
     {
         if ($params->hasParam('form')) {
             /** @var rex_form $form */
@@ -173,7 +173,7 @@ class StoreChannelsActions
                     $name .= "name_" . $clang->getId() . " = \"" . $result[$form->getTableName() . '.name'] . "\", ";
 
                 // update category
-                $sql->setQuery("UPDATE " . self::CATEGORIES_TABLE . " SET $name prio = {$result[$form->getTableName().'.prio']}, status = $status WHERE id = {$result[$form->getTableName().'.category']}");
+                $sql->setQuery("UPDATE " . rex::getTablePrefix() . self::CATEGORIES_TABLE . " SET $name prio = {$result[$form->getTableName().'.prio']}, status = $status WHERE id = {$result[$form->getTableName().'.category']}");
 
                 return rex_view::info(rex_i18n::msg('store_channel_category_change_success'));
             }

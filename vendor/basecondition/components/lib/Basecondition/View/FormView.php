@@ -48,6 +48,11 @@ class FormView
     /**
      * @var string
      */
+    public $tableBaseName;
+
+    /**
+     * @var string
+     */
     public $searchFile;
 
     /**
@@ -102,6 +107,7 @@ class FormView
         $this->legend = $legend;
         $this->debug = $debug;
         $this->urlParameters = $urlParameters;
+        $this->tableBaseName = $addonKey . '_' . $searchFile;
 
         $this->tableKey = rex::getTablePrefix() . $addonKey . '_' . $searchFile;
 
@@ -137,10 +143,6 @@ class FormView
             $this->form->addParam('id', $this->id);
         }
 
-        $this->form->setApplyUrl(rex_url::currentBackendPage());
-        $this->form->setEditMode(($this->id > 0));
-        $this->form->addParam('start', rex_request::request('start', 'int'));
-
         if (sizeof($this->urlParameters) > 0) {
             foreach ($this->urlParameters as $parameter => $value) {
                 if (is_array($value)) {
@@ -149,6 +151,12 @@ class FormView
                     $this->form->addParam($parameter, $value);
                 }
             }
+        }
+
+        $this->form->setEditMode(($this->id > 0));
+
+        if (!array_key_exists('start', $this->urlParameters)) {
+            $this->form->addParam('start', rex_request::request('start', 'int'));
         }
     }
 
@@ -173,7 +181,7 @@ class FormView
 
                     $uId = uniqid();
                     $this->items[$key]['tab_unique_id'] = $uId;
-                    $tabNav[$uId] = ViewHelper::getLabel($item);
+                    $tabNav[$uId] = ViewHelper::getLabel($item, 'label', $this->tableBaseName);
                 }
             }
 
@@ -259,13 +267,14 @@ class FormView
      * @param array $panel
      * @param null $clang
      * @author Joachim Doerr
+     * @throws \rex_exception
      */
     public function addPanelFieldset(array $panel, $clang = null)
     {
         if (array_key_exists('panel_name', $panel) && array_key_exists('fields', $panel)) {
             // ADD PANEL
             FormHelper::addCollapsePanel($this->form, 'wrapper');
-            FormHelper::addCollapsePanel($this->form, 'inner_wrapper', ViewHelper::getLabel($panel));
+            FormHelper::addCollapsePanel($this->form, 'inner_wrapper', ViewHelper::getLabel($panel, 'label', $this->tableBaseName));
 
             // panel lang fields
             $this->addDefaultFieldset($panel['fields'], $clang);
@@ -280,16 +289,13 @@ class FormView
      * @param array $fieldset
      * @param null $clang
      * @author Joachim Doerr
+     * @throws \rex_exception
      */
     public function addDefaultFieldset(array $fieldset, $clang = null)
     {
         // field row
         $fieldRow = false;
         $fieldColumn = false;
-
-//        echo '<pre>';
-//        print_r($fieldset);
-//        echo '</pre>';
 
         foreach ($fieldset as $item) {
             if (is_array($item) && array_key_exists('field_row', $item) && $item['field_row'] == 'open') {
@@ -345,7 +351,7 @@ class FormView
             }
 
             // set element for add more...
-            $element = FormHelper::addFormElementByField($this->form, $item, $this->id);
+            $element = FormHelper::addFormElementByField($this->form, $item, $this->id, $this->tableBaseName);
 
 //            // TODO validation...
 //            if ($element instanceof rex_form_element) {
@@ -355,7 +361,7 @@ class FormView
 
 
             // set element properties by item array
-            FormHelper::setElementProperties($element, $item);
+            FormHelper::setElementProperties($element, $item, $this->tableBaseName);
         }
 
         if ($fieldColumn) {
@@ -384,7 +390,7 @@ class FormView
 
         $uid = uniqid();
         // create navigation
-        MBlockHelper::addMBlockSetNavigation($this->form, $item, $this->urlParameters, $this->id, $active, $uid);
+        MBlockHelper::addMBlockSetNavigation($this->form, $item, $this->urlParameters, $this->id, $active, $uid, 'base', $this->tableBaseName);
         // create mblock fieldsets
         MBlockHelper::addMBlockSetFieldset($this, $item, $active, $uid);
     }

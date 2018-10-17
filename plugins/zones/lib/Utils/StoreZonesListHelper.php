@@ -28,6 +28,7 @@ class StoreZonesListHelper
      * @param $params
      * @return string
      * @author Joachim Doerr
+     * @throws rex_sql_exception
      */
     public static function formatZones($params)
     {
@@ -35,11 +36,36 @@ class StoreZonesListHelper
         $list = $params["list"];
 
         if (!empty($list->getValue("zone"))) {
-            $sql = rex_sql::factory();
-            $sql->setQuery('SELECT * FROM rex_store_zones WHERE id=' . $list->getValue("zone"));
-            $result = $sql->getArray();
 
-            return $list->getColumnLink("zone", "<span>{$result[0]['name_en_gb']}</span>");
+            $ids = array();
+            $names = array();
+
+            try {
+                $json = json_decode($list->getValue("zone"));
+                if (is_array($json)) {
+                    $ids = $json;
+                } else {
+                    $ids[] = $list->getValue("zone");
+                }
+            } catch (\Exception $e) {
+                $ids[] = $list->getValue("zone");
+            }
+
+            if (sizeof($ids) > 0) {
+                $sql = rex_sql::factory();
+                $sql->setQuery('SELECT * FROM rex_store_zones WHERE id IN ("'. implode('","', $ids) .'")');
+                $result = $sql->getArray();
+
+                if (sizeof($result) > 0) {
+                    foreach ($result as $item) {
+                        if (array_key_exists('name_en_gb', $item)) {
+                            $names[] = $item['name_en_gb'];
+                        }
+                    }
+                }
+            }
+
+            return $list->getColumnLink("zone", "<span>".implode(', ', $names)."</span>");
         }
         return '';
     }

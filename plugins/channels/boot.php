@@ -18,7 +18,7 @@ if (rex::isBackend() && rex::getUser()) {
 
     //////////////////////////////
     // register store func
-    rex_extension::register('STORE_FUNC', function (rex_extension_point $params) {
+    rex_extension::register('STORE_FUNC_ACTION', function (rex_extension_point $params) {
         $parameter = $params->getSubject();
 
         if (is_array($parameter)
@@ -33,11 +33,11 @@ if (rex::isBackend() && rex::getUser()) {
                     $parameter['func'] = ''; // no redirect?
                     break;
                 case 'delete':
-                    $parameter['message'] = StoreChannelsActions::deleteChannel($parameter);
+                    $parameter['message'] = StoreChannelsActions::delete($parameter);
                     $parameter['func'] = ''; // go to list...
                     break;
                 case 'status':
-                    $parameter['message'] = StoreChannelsActions::onlineOfflineChannel($parameter);
+                    $parameter['message'] = StoreChannelsActions::onlineOffline($parameter);
                     $parameter['func'] = ''; // go to list...
                     break;
                 case 'edit':
@@ -68,6 +68,6 @@ if (rex::isBackend() && rex::getUser()) {
     // register form saved action
     rex_extension::register('REX_FORM_SAVED', function (rex_extension_point $params) {
         if (rex_request::request('base_path', 'string', '') ==  'store/channels/channels')
-            StoreChannelsActions::postSaveChannel($params);
+            StoreChannelsActions::postSave($params);
     });
 }

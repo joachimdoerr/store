@@ -43,21 +43,23 @@ configuration:
                 list_icon: fa-flag-o
                 list: counties
 
-#        currencies:
-#            name: currencies
-#            title_de: Währungen
-#            title_en: Currencies
-#            hidden: false
-#            perm: store[]
-#            path: store/zones/currencies
-#            icon: fa-dollar
-#            position: 80
-#        tax_rates:
-#            name: tax_rates
-#            title_de: Steuersätze
-#            title_en: Tax rates
-#            icon: fa-money
-#            position: 120
+        currencies:
+            name: currencies
+            title_de: Währungen
+            title_en: Currencies
+            hidden: false
+            perm: store[]
+            path: store/zones/currencies
+            icon: fa-dollar
+            position: 80
+
+        tax_rates:
+            name: tax_rates
+            title_de: Steuersätze
+            title_en: Tax rates
+            icon: fa-money
+            position: 120
+
 #        tax_categories:
 #            name: tax_categories
 #            title_de: Steuerkategorien

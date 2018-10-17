@@ -29,10 +29,12 @@ class FormHelper
      * @param rex_form $form
      * @param array $item
      * @param null $id
+     * @param null $tableBaseName
      * @return mixed|null|rex_form_element|rex_form_widget_media_element|rex_form_widget_medialist_element|rex_form_prio_element
+     * @throws \rex_exception
      * @author Joachim Doerr
      */
-    public static function addFormElementByField(rex_form $form, array $item, $id = null)
+    public static function addFormElementByField(rex_form $form, array $item, $id = null, $tableBaseName = null)
     {
         if (array_key_exists('form_hidden', $item) && $item['form_hidden'] == 1) {
             return null;
@@ -45,7 +47,7 @@ class FormHelper
             $name = (array_key_exists('lang_name', $item)) ? $item['lang_name'] : $item['name'];
 
             if (array_key_exists('form_callable', $item)) {
-                return call_user_func_array($item['form_callable'], array($form, $item, $id));
+                return call_user_func_array($item['form_callable'], array($form, $item, $id, $tableBaseName));
             }
 
             $type = $item['type'];
@@ -93,14 +95,15 @@ class FormHelper
     /**
      * @param mixed|null|rex_form_element|rex_form_widget_media_element|rex_form_widget_medialist_element $element
      * @param array $item
+     * @param null $tableBaseName
      * @return mixed|null|rex_form_element|rex_form_widget_media_element|rex_form_widget_medialist_element
      * @author Joachim Doerr
      */
-    public static function setElementProperties($element, array $item)
+    public static function setElementProperties($element, array $item, $tableBaseName = null)
     {
         // add label
         if (is_object($element) && empty($element->getLabel())) {
-            $element->setLabel(ViewHelper::getLabel($item));
+            $element->setLabel(ViewHelper::getLabel($item, 'label', $tableBaseName));
         }
         // add class
         if (is_object($element) && array_key_exists('form_class', $item)) {
@@ -109,6 +112,14 @@ class FormHelper
         // add style
         if (is_object($element) && array_key_exists('form_style', $item)) {
             $element->setAttribute('style', $item['form_style']);
+        }
+        // add data
+        if (is_object($element) && array_key_exists('data', $item) && is_array($item['data']) && sizeof($item['data']) > 0) {
+            foreach ($item['data'] as $data) {
+                foreach ($data as $key => $val) {
+                    $element->setAttribute('data-' . $key, $val);
+                }
+            }
         }
 
         return $element;
@@ -206,39 +217,37 @@ class FormHelper
      */
     public static function addTabs(rex_form $form, $type, $key = null, $curKey = null, $nav = null, $baseClass = 'base')
     {
-        if (rex_clang::count() > 1) {
-            switch ($type) {
-                case 'wrapper':
-                    $form->addRawField('<div class="'.$baseClass.'-tabs"><ul class="nav nav-tabs" role="tablist">');
-                    if (is_array($nav)) {
-                        foreach ($nav as $nKey => $value) {
-                            $active = '';
-                            if ($key == $nKey) {
-                                $active = ' active';
-                            }
-                            $form->addRawField("<li role=\"presentation\" class=\"$active\"><a href=\"#pnl{$nKey}\" aria-controls=\"home\" role=\"tab\" data-toggle=\"tab\">{$value}</a></li>");
+        switch ($type) {
+            case 'wrapper':
+                $form->addRawField('<div class="'.$baseClass.'-tabs"><ul class="nav nav-tabs" role="tablist">');
+                if (is_array($nav)) {
+                    foreach ($nav as $nKey => $value) {
+                        $active = '';
+                        if ($key == $nKey) {
+                            $active = ' active';
                         }
+                        $form->addRawField("<li role=\"presentation\" class=\"$active\"><a href=\"#pnl{$nKey}\" aria-controls=\"home\" role=\"tab\" data-toggle=\"tab\">{$value}</a></li>");
                     }
-                    $form->addRawField('</ul><div class="tab-content '.$baseClass.'-tabform">');
-                    break;
-                case 'navigation':
-                    break;
-                case 'close_wrapper':
-                    $form->addRawField('</div></div>');
-                    break;
+                }
+                $form->addRawField('</ul><div class="tab-content '.$baseClass.'-tabform">');
+                break;
+            case 'navigation':
+                break;
+            case 'close_wrapper':
+                $form->addRawField('</div></div>');
+                break;
 
-                case 'inner_wrapper':
-                    $active = '';
-                    if ($key == $curKey) {
-                        $active = ' active';
-                    }
-                    $form->addRawField("\n\n\n<div id=\"pnl$key\" role=\"tabpanel\" class=\"tab-pane $active\">\n");
-                    break;
+            case 'inner_wrapper':
+                $active = '';
+                if ($key == $curKey) {
+                    $active = ' active';
+                }
+                $form->addRawField("\n\n\n<div id=\"pnl$key\" role=\"tabpanel\" class=\"tab-pane $active\">\n");
+                break;
 
-                case 'close_inner_wrapper':
-                    $form->addRawField('</div>');
-                    break;
-            }
+            case 'close_inner_wrapper':
+                $form->addRawField('</div>');
+                break;
         }
     }
 
@@ -250,7 +259,7 @@ class FormHelper
     public static function closeTabs(rex_form $form, $type)
     {
         // close lang tabs
-        self::addLangTabs($form, $type);
+        self::addTabs($form, $type);
     }
 
     /**
@@ -302,10 +311,11 @@ class FormHelper
      * @param rex_form $form
      * @param array $item
      * @param null $id
+     * @param null $tableBaseName
      * @return mixed|rex_form_select_element
      * @author Joachim Doerr
      */
-    public static function addStatusElement(rex_form $form, array $item, $id = null)
+    public static function addStatusElement(rex_form $form, array $item, $id = null, $tableBaseName = null)
     {
         $available = false;
 
@@ -321,7 +331,7 @@ class FormHelper
             $element = $form->addCheckboxField($item['name']);
 
             if (array_key_exists('label', $item)) {
-                $element->setLabel(ViewHelper::getLabel($item));
+                $element->setLabel(ViewHelper::getLabel($item, 'label', $tableBaseName));
             }
 
             $element->addOption('', 1);
@@ -336,7 +346,7 @@ class FormHelper
             $element = $form->addSelectField('status');
             $select = $element->getSelect();
             $select->addOptions(array(1=>'online', 0=>'offline'));
-            $element->setLabel(ViewHelper::getLabel($item));
+            $element->setLabel(ViewHelper::getLabel($item, 'label', $tableBaseName));
 
             if (array_key_exists('style', $item)) {
                 $element->setAttribute('style', $item['style']);
@@ -349,10 +359,12 @@ class FormHelper
     /**
      * @param rex_form $form
      * @param array $item
+     * @param null $tableBaseName
      * @return mixed|rex_form_select_element
+     * @throws \rex_sql_exception
      * @author Joachim Doerr
      */
-    public static function addSelectField(rex_form $form, array $item)
+    public static function addSelectField(rex_form $form, array $item, $tableBaseName = null)
     {
         $sql = rex_sql::factory();
         $sql->setQuery($item['query']);
@@ -373,7 +385,7 @@ class FormHelper
             $select->setSelected(explode(',', str_replace(array('[',']', '"'), '', $element->getValue())));
         }
 
-        $element->setLabel(ViewHelper::getLabel($item));
+        $element->setLabel(ViewHelper::getLabel($item, 'label', $tableBaseName));
 
         return $element;
 

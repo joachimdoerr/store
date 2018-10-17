@@ -4,11 +4,11 @@ author: Joachim Doerr
 supportpage: https://joachim-doerr.com
 
 page:
-    title: translate:store_channels_settings
+    title: ''
     perm: store[]
-    hidden: false
+    hidden: true
     subpages:
         categories:
             title: ''
-            hidden: false
             perm: store[]
+            hidden: true

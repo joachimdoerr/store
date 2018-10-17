@@ -33,11 +33,11 @@ $message = '';
 // actions
 switch ($params['func']) {
     case 'delete':
-        $message = StoreCategoriesActions::deleteCategory($params);
+        $message = StoreCategoriesActions::delete($params);
         $params['func'] = ''; // go to list...
         break;
     case 'status':
-        $message = StoreCategoriesActions::onlineOfflineCategory($params);
+        $message = StoreCategoriesActions::onlineOffline($params);
         $params['func'] = ''; // go to list...
         break;
 }
@@ -60,7 +60,7 @@ if ($params['channel_fail'] == 1) {
 //////////////////////////////
 // load channel
 $sql = rex_sql::factory();
-$sql->setQuery("SELECT * FROM ".StoreChannelsActions::CHANNELS_TABLE." AS sc WHERE id={$params['channel']}");
+$sql->setQuery("SELECT * FROM " . rex::getTablePrefix() . StoreChannelsActions::CHANNELS_TABLE." AS sc WHERE category={$params['channel']}");
 $channel = ($sql->getRows() > 0) ? $sql->getRow() : array();
 
 //////////////////////////////
@@ -99,10 +99,10 @@ FROM    (
                 SELECT  @start_with := {$params['channel']},
                         @id := @start_with,
                         @level := 0
-                ) vars, ".StoreChannelsActions::CATEGORIES_TABLE."
+                ) vars, ".rex::getTablePrefix() . StoreChannelsActions::CATEGORIES_TABLE."
         WHERE   @id IS NOT NULL
         ) ho
-JOIN    ".StoreChannelsActions::CATEGORIES_TABLE." $k
+JOIN    ".rex::getTablePrefix() . StoreChannelsActions::CATEGORIES_TABLE." $k
 ON      $k.id = ho.id
 ORDER BY path
     ";
@@ -129,13 +129,13 @@ ORDER BY path
     // add id element
     $list->addIdElement(array(), 'fa-folder-o fa-folder-###level###');
     // add all default elements by definitions
-    $list->addDefaultElements();
+    $list->addDefaultElements(array(), 'store');
 
 
     // print content to fragment
     $fragment = new rex_fragment();
     $fragment->setVar('title', sprintf(rex_i18n::msg('store_categories_list_channel_view'), '"'.$channel['sc.name'].'"'));
-    $fragment->setVar('content', ListHelper::wrapList($message, $list, 'store-list'), false);
+    $fragment->setVar('content', ListHelper::wrapList($message, $list, 'base-list'), false);
     echo $fragment->parse('core/page/section.php');
 
 

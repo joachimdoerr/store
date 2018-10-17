@@ -1,15 +1,60 @@
-store_countries_name_de_de = Land
-store_countries_is_eu = EU-Nation
+# NAVIGATION
 
-store_countries_master_headline = Länder
-store_countries_master_description = Verwaltung der Länder
+store_configuration_zones = Gebiete
+store_configuration_currencies = Währungen
+store_configuration_tax_rates = Steuersätze
+store_configuration_countries = Länder
+store_configuration_counties = Staaten
+
+# ZONES
+
+store_zones_master_headline = Gebiete
+store_zones_master_description = Verwaltung der geographischen Zonen
+
+store_zones_name = Name
+store_zones_name_en_gb = Gebiet (en)
+store_zones_name_de_de = Gebiet (de)
+store_zones_status = Status
+
+# COUNTIES
 
 store_counties_master_headline = Staaten
 store_counties_master_description = Verwaltung der Staaten / Bundesländer eines Landes
 
+store_counties_name_en_gb = Land (en)
+store_counties_name_de_de = Land (de)
+store_counties_code = Iso-Code
+store_counties_country = Land
+store_counties_zone = Gebiet
+store_counties_prio = Prio
+store_counties_status = Status
 
-store_zones_master_headline = Zonen
-store_zones_master_description = Verwaltung der geographischen Zonen
+# COUNTRIES
+
+store_countries_master_headline = Länder
+store_countries_master_description = Verwaltung der Länder
+
+store_countries_name_en_gb = Land (en)
+store_countries_name_de_de = Land (de)
+store_countries_code2 = Alpha-Iso 2
+store_countries_code3 = Alpha-Iso 3
+store_countries_phone_code = Ländervorwahl
+store_countries_is_eu = EU-Nation
+store_countries_zone = Gebiet
+store_countries_prio = Prio
+store_countries_status = Status
+
+# TAX RATES
+
+store/zones/tax_rates_list_view = Steuersätze
+store/zones/tax_rates_add = Steuersatz hinzufügen
+store/zones/tax_rates_edit = Steuersatz bearbeiten
+
+store_tax_rates_name = Name
+store_tax_rates_tax_rate = Steuersatz
+store_tax_rates_status = Status
+
+# CURRENCIES
 
 store_currencies_master_headline = Währungen
 store_currencies_master_description = Verwaltung der gültigen Währungen

@@ -5,16 +5,17 @@ author: Joachim Doerr
 supportpage: https://joachim-doerr.com
 
 page:
-    title: 'translate:store_title'
+    title: ''
     perm: store[]
-#    block: store_configuration
-    icon: rex-icon fa-shopping-cart
+    hidden: true
     subpages:
-        settings: { title: 'translate:store_settings', perm: storeadmin[] }
-        list_form: { title: '', perm: storeadmin[], hidden: 1 }
+        list_form:
+            title: ''
+            perm: store[]
+            hidden: true
 
-system_plugins:
-    - channels
-    - products
-    - tools
-    - zones
+#system_plugins:
+#    - channels
+#    - products
+#    - tools
+#    - zones

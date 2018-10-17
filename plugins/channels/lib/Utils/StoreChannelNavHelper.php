@@ -14,17 +14,18 @@ class StoreChannelNavHelper
      * @param array $params
      * @return array
      * @author Joachim Doerr
+     * @throws rex_sql_exception
      */
     public static function addChannelsFilter(array $params = array())
     {
         $sql = rex_sql::factory();
-        $sql->setQuery("SELECT * FROM ".StoreChannelsActions::CHANNELS_TABLE." AS sc WHERE sc.status = 1 AND sc.category IS NOT NULL ORDER BY sc.prio");
+        $sql->setQuery("SELECT * FROM ".rex::getTablePrefix() . StoreChannelsActions::CHANNELS_TABLE." AS sc WHERE sc.status = 1 AND sc.category IS NOT NULL ORDER BY sc.prio");
         $pages = array();
         foreach ($sql->getArray() as $value) {
             $pages[] = array(
                 'name' => $value['category'],
-                'title_all' => $value['name'],
-                'url_parameter' => array('channel' => $value['id']),
+                'title' => $value['name'],
+                'url_parameter' => array('channel' => $value['category']),
                 'active_parameter' => 'channel',
                 'id' => $value['category']
             );

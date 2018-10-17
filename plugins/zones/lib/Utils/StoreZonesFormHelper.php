@@ -17,26 +17,31 @@ class StoreZonesFormHelper
      * @param rex_form $form
      * @param array $item
      * @param null $id
+     * @param null $tableBaseName
      * @return mixed|rex_form_select_element
+     * @throws rex_sql_exception
      * @author Joachim Doerr
      */
-    public static function addZonesSelectElement(rex_form $form, array $item, $id = null)
+    public static function addZonesSelectElement(rex_form $form, array $item, $id = null, $tableBaseName = null)
     {
         $item['query'] = "SELECT name_en_gb as name, id FROM `rex_store_zones`";
-        return FormHelper::addSelectField($form, $item);
+        $item['multiple'] = true;
+        return FormHelper::addSelectField($form, $item, $tableBaseName);
     }
 
     /**
      * @param rex_form $form
      * @param array $item
      * @param null $id
+     * @param null $tableBaseName
      * @return mixed|rex_form_select_element
+     * @throws rex_sql_exception
      * @author Joachim Doerr
      */
-    public static function addCountriesSelectElement(rex_form $form, array $item, $id = null)
+    public static function addCountriesSelectElement(rex_form $form, array $item, $id = null, $tableBaseName = null)
     {
         $item['query'] = "SELECT name_en_gb as name, id FROM `rex_store_countries`";
-        return FormHelper::addSelectField($form, $item);
+        return FormHelper::addSelectField($form, $item, $tableBaseName);
     }
 
     /**
@@ -46,7 +51,7 @@ class StoreZonesFormHelper
      * @return mixed|rex_form_element
      * @author Joachim Doerr
      */
-    public static function addPriorityElement(rex_form $form, array $item, $id = null)
+    public static function addPriorityElement(rex_form $form, array $item, $id = null, $tableBaseName = null)
     {
         // TODO add text input nummerisch 0 as default by add
 

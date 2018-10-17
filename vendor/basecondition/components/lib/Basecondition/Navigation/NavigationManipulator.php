@@ -18,6 +18,7 @@ use rex_be_page;
 use rex_be_page_main;
 use rex_extension;
 use rex_extension_point;
+use rex_i18n;
 use rex_request;
 use rex_url;
 
@@ -70,8 +71,12 @@ class NavigationManipulator
 
                             if (!array_key_exists('name', $page)) continue;
 
+                            if (!isset($page['title'])) {
+                                $page['title'] = rex_i18n::msg($mainPage['name'] . '_' . $page['name']);
+                            }
+
                             // create be page main navigation
-                            $be_page = new rex_be_page_main($mainPage['name'], $page['name'], DefinitionHelper::getTitle($page));
+                            $be_page = new rex_be_page_main($mainPage['name'], $page['name'], $page['title']);
                             $be_page->setHref(str_replace('&amp;', '&', rex_url::backendPage($this->getPath($page), $this->getUrlParameter($page)))); # . '&' . http_build_query($this->getUrlParameter($page))); // create url by path and parameter
                             $be_page->setIcon('rex-icon ' . $page['icon']);
                             $be_page->setPrio($page['position']);
@@ -82,7 +87,7 @@ class NavigationManipulator
                             ) { // yes
                                 // if (rex_request::request('page', 'string') != $this->addonName && rex_request::request('page', 'string') == $this->basePath) $this->addonName = $addonName;
 
-                                $this->hiddenAllPoints(); // default all is hidden
+//                                $this->hiddenAllPoints(); // default all is hidden
 
                                 // set our point as active
                                 $be_page->setIsActive();
@@ -162,8 +167,12 @@ class NavigationManipulator
                         continue;
                     }
 
+                    if (!isset($site['title'])) {
+                        $site['title'] = rex_i18n::msg($site['name'] . '_' . $site['name']);
+                    }
+
                     // create be page object
-                    $bePage = new rex_be_page($params->getParam('base_path') . '/' . $site['active_parameter'] . '/' . $site['name'], DefinitionHelper::getTitle($site));
+                    $bePage = new rex_be_page($params->getParam('base_path') . '/' . $site['active_parameter'] . '/' . $site['name'], $site['title']);
                     $bePage->setHref('index.php?page=' . $params->getParam('base_path') . '&' . http_build_query($site['url_parameter'], null, '&', PHP_QUERY_RFC3986));
 
                     foreach (
@@ -189,6 +198,9 @@ class NavigationManipulator
 
                         if (array_key_exists('subpages', $site)) {
                             foreach ($site['subpages'] as $siteSubpage) {
+                                if (!isset($siteSubpage['title'])) {
+                                    $siteSubpage['title'] = rex_i18n::msg($site['name'] . '_' . $siteSubpage['name']);
+                                }
                                 $beSubpage = new rex_be_page($params->getParam('base_path') . '/' . $site['active_parameter'] . '/' . $site['name'] . '/' . $siteSubpage['name'], $siteSubpage['title']);
                                 // TODO add href
                                 // TODO active

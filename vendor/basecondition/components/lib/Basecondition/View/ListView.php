@@ -53,6 +53,11 @@ class ListView
     /**
      * @var string
      */
+    public $tableBaseName;
+
+    /**
+     * @var string
+     */
     public $searchFile;
 
     /**
@@ -122,6 +127,7 @@ class ListView
 
 //        dump($definition);
 
+        $this->tableBaseName = $addonKey . '_' . $searchFile;
         $this->tableKey = rex::getTablePrefix() . $addonKey . '_' . $searchFile;
         $this->rows = $rows;
         $this->debug = $debug;
@@ -357,10 +363,11 @@ class ListView
 
     /**
      * @param array $parameter
+     * @param null $defaultLabelPrefix
      * @return $this
      * @author Joachim Doerr
      */
-    public function addDefaultElements($parameter = array())
+    public function addDefaultElements($parameter = array(), $defaultLabelPrefix = null)
     {
         if (is_array($this->items)) {
             foreach ($this->items as $item) {
@@ -373,14 +380,16 @@ class ListView
                 $defaultParam = array('id' => '###id###', 'start' => rex_request::request('start', 'int', NULL));
 
                 // label
-                ListHelper::setLabel($this->list, $item, $item['name'], $this->addonKey . '_' . $this->definition['search_schema'] . '_');
+                ListHelper::setLabel($this->list, $item, $item['name'], $this->tableBaseName);
 
                 // functions callable
                 if (array_key_exists('list_callable', $item)) {
+                    $item['default_label_prefix'] = $defaultLabelPrefix;
                     call_user_func_array($item['list_callable'], array(
                         $this->list,
                         $item,
-                        array_merge($defaultParam, $parameter, array('addon_key' => $this->addonKey . '_' . $this->definition['search_schema']))
+                        array_merge($defaultParam, $parameter, array('addon_key' => $this->addonKey . '_' . $this->definition['search_schema'])),
+                        $this->tableBaseName
                     ));
 
                     // add to list group

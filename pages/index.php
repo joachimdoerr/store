@@ -19,4 +19,4 @@ print $storeTitle;
 
 // TODO add brotkrümel ?
 
-include rex_be_controller::getCurrentPageObject()->getSubPath();
+rex_be_controller::includeCurrentPageSubPath();
