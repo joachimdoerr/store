@@ -1,0 +1,66 @@
+configuration:
+    pages:
+        zones:
+            name: zones
+            title_de: Zonen
+            title_en: Zones
+            hidden: false
+            perm: store[]
+            icon: fa-globe
+            position: 35
+            url_parameter:
+                store_path: store/zones/zones
+                list_icon: fa-globe
+                list: zones
+
+        countries:
+            name: countries
+            title_de: Länder
+            title_en: Countries
+            hidden: false
+            perm: store[]
+            icon: fa-flag
+            position: 40
+            url_parameter:
+                store_path: store/zones/countries
+                list_icon: fa-flag-o
+                rows: 45
+                start: 0
+                sort: is_eu
+                sorttype: desc
+                list: countries
+
+        counties:
+            name: counties
+            title_de: Staaten
+            title_en: States
+            hidden: false
+            perm: store[]
+            icon: fa-flag-o
+            position: 60
+            url_parameter:
+                store_path: store/zones/counties
+                list_icon: fa-flag-o
+                list: counties
+
+#        currencies:
+#            name: currencies
+#            title_de: Währungen
+#            title_en: Currencies
+#            hidden: false
+#            perm: store[]
+#            path: store/zones/currencies
+#            icon: fa-dollar
+#            position: 80
+#        tax_rates:
+#            name: tax_rates
+#            title_de: Steuersätze
+#            title_en: Tax rates
+#            icon: fa-money
+#            position: 120
+#        tax_categories:
+#            name: tax_categories
+#            title_de: Steuerkategorien
+#            title_en: Tax categories
+#            icon: fa-tags
+#            position: 110

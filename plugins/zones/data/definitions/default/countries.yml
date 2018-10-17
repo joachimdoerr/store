@@ -1,0 +1,109 @@
+- fields_0:
+    - name: name_en_gb
+      type: varchar
+      label_de: Land (en)
+      label_en: Country
+      prio: 40
+      list_editable: 1
+    - name: name_de_de
+      type: varchar
+      label_de: Land (de)
+      label_en: Country
+      prio: 40
+      list_editable: 1
+    - name: code2
+      type: varchar
+      label_de: Alpha-Iso 2
+      label_en: Alpha-iso 2
+      prio: 10
+      list_editable: 1
+    - name: code3
+      type: varchar
+      label_de: Alpha-Iso 3
+      label_en: Alpha-iso 3
+      prio: 11
+      list_hidden: 1
+    - name: phone_code
+      type: int
+      label_de: Länder Vorwahl
+      label_en: Phone-code
+      prio: 50
+      list_hidden: 1
+#    - name: is_eu
+#      type: bool
+#      prio: 60
+#      list_hidden: 1
+#      list_format_callable: StoreZonesListHelper::formatEuCountry
+#      list_sort: 1
+    - name: zone
+      type: int
+      label_de: Zone
+      label_en: Zone
+      prio: 65
+      list_sort: 1
+      list_format_callable: StoreZonesListHelper::formatZones
+      form_callable: StoreZonesFormHelper::addZonesSelectElement
+      form_class: selectpicker
+    - name: prio
+      type: prio
+      prio: 70
+      form_prio_label: code2
+      list_hidden: 1
+      ## TODO add tax for country
+#    - name: texttest
+#      type: text
+#      label_de: test text
+#      label_en: text text
+#      prio: 80
+#      form_type: mblock
+#      mblock_definition: sub/testdef
+#      mblock_settings_min: 0
+#    - name: texttest2
+#      type: text
+#      label_de: test text2
+#      label_en: text text2
+#      prio: 85
+#      mblock_definition:
+#          set/set1: Set1
+#          set/set2: Set2
+#          set/set3: Set3
+#      mblock_settings_min: 0
+#      mblock_settings_max: 3
+    - name: status
+      type: bool
+      label: store_channels_status
+      prio: 100
+      list_load: 1
+      list_hidden: 1
+      form_callable: StoreFormHelper::addStatusElement
+    - name: functions
+      label: store_list_functions
+      no_db: 1
+      search: 0
+      prio: 190
+      list_status: 1
+      list_edit: 1
+      list_delete: 1
+      list_group: [90,100,90]
+      list_callable: StoreListHelper::addFunctions
+      form_hidden: 1
+    - name: createdate
+      type: datetime
+      prio: 500
+      list_hidden: 1
+      form_hidden: 1
+    - name: updatedate
+      type: datetime
+      prio: 500
+      list_hidden: 1
+      form_hidden: 1
+    - name: createuser
+      type: varchar
+      prio: 500
+      list_hidden: 1
+      form_hidden: 1
+    - name: updateuser
+      type: varchar
+      prio: 500
+      list_hidden: 1
+      form_hidden: 1
